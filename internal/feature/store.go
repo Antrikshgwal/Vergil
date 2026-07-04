@@ -29,7 +29,7 @@ func NewRedisStore(addr string, window time.Duration) *RedisStore {
 
 func (s *RedisStore) Velocity(ctx context.Context, UserID string) (int, error) {
 	key := "velocity:" + UserID
-	count, err := s.client.Incr( key).Result()
+	count, err := s.client.Incr(key).Result()
 	if err != nil {
 		return 0, err
 	}
