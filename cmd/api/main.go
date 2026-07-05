@@ -4,6 +4,11 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"time"
+
+	"github.com/Antrikshgwal/Vergil/internal/decision"
+	"github.com/Antrikshgwal/Vergil/internal/feature"
+	"github.com/Antrikshgwal/Vergil/internal/rules"
 )
 
 type transactionRequest struct {
@@ -16,7 +21,7 @@ type transactionRequest struct {
 type classificationType string
 
 const (
-	ALLOW classificationType = "ALLOW"
+	ALLOW  classificationType = "ALLOW"
 	REVIEW classificationType = "REVIEW"
 	BLOCK  classificationType = "BLOCK"
 )
@@ -27,28 +32,52 @@ type transactionResponse struct {
 	Score          float64            `json:"score"`
 }
 
-func processTransaction(w http.ResponseWriter, r *http.Request){
-	var Request transactionRequest
-	err := json.NewDecoder(r.Body).Decode(&Request)
+type api struct {
+	svc *decision.Service
+}
+
+func (a *api) handleTransaction(w http.ResponseWriter, r *http.Request) {
+	var req transactionRequest
+
+	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if Request.TxnID == "" || Request.UserID == "" || Request.Amount <= 0 || Request.Currency == "" {
+	if req.TxnID == "" || req.UserID == "" || req.Amount <= 0 || req.Currency == "" {
 		http.Error(w, "Missing or invalid fields in request", http.StatusBadRequest)
 		return
 	}
+
+	d, err := a.svc.Decide(r.Context(), decision.Transaction{
+		TxnID:    req.TxnID,
+		UserID:   req.UserID,
+		Amount:   req.Amount,
+		Currency: req.Currency,
+	})
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(transactionResponse{
-		TxnID:          Request.TxnID,
-		Classification: ALLOW,
-		Score:          0.8,
+		TxnID:          d.TxnID,
+		Classification: classificationType(d.Classification),
+		Score:          d.Score,
 	})
-
 }
 
 func main() {
+	a := &api{}
 	mux := http.NewServeMux()
-	mux.HandleFunc("POST /v1/transactions", processTransaction)
+	fs := feature.NewRedisStore("localhost:6379", 60*time.Second)
+	ruleset := []rules.Rule{
+		rules.HighVelocityRule{Threshold: 5, Point: 0.5},
+		rules.HighAmountRule{Threshold: 1000, Point: 0.5},
+	}
+	svc := decision.NewService(fs, ruleset)
+	a = &api{svc: svc}
+	mux.HandleFunc("POST /v1/transactions", a.handleTransaction)
 	log.Fatal(http.ListenAndServe(":8080", mux))
 }
