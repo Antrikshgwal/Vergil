@@ -8,11 +8,16 @@ import (
 )
 
 type FakeStore struct {
-	n int
+	n         int
+	amountSum float64
 }
 
 func (fs *FakeStore) Velocity(ctx context.Context, userID, txnID string) (int, error) {
 	return fs.n, nil
+}
+
+func (fs *FakeStore) AmountSum(ctx context.Context, userID string, amount float64) (float64, error) {
+	return fs.amountSum, nil
 }
 
 func TestDecide(t *testing.T) {
