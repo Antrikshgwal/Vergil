@@ -75,6 +75,11 @@ func main() {
 	ruleset := []rules.Rule{
 		rules.HighVelocityRule{Threshold: 5, Point: 0.5},
 		rules.HighAmountRule{Threshold: 1000, Point: 0.5},
+		rules.HighAmountSumRule{Threshold: 5000, Point: 0.5},
+		rules.UnusualCurrencyRule{
+			Allowed: map[string]bool{"USD": true, "EUR": true, "GBP": true},
+			Point:   0.3,
+		},
 	}
 	svc := decision.NewService(fs, ruleset)
 	a = &api{svc: svc}

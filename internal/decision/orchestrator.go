@@ -43,10 +43,15 @@ func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error)
 	if err != nil {
 		return Decision{}, err
 	}
+	amountSum, err := s.store.AmountSum(ctx, txn.UserID, txn.Amount)
+	if err != nil {
+		return Decision{}, err
+	}
 	feats := rules.Features{
-		Velocity: velocity,
-		Amount:   txn.Amount,
-		Currency: txn.Currency,
+		Velocity:  velocity,
+		Amount:    txn.Amount,
+		AmountSum: amountSum,
+		Currency:  txn.Currency,
 	}
 	score, triggeredRules := rules.ScoreTransaction(feats, s.rules)
 	classification := rules.Classify(score)
