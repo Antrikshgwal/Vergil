@@ -2,17 +2,15 @@ package feature
 
 import (
 	"context"
+	"fmt"
 	"time"
 
-	"github.com/go-redis/redis"
+	"github.com/redis/go-redis/v9"
 )
 
-var rdb = redis.NewClient(&redis.Options{
-	Addr: "localhost:6379", // Redis server address
-})
 
 type Store interface {
-	Velocity(ctx context.Context, key string) (int, error)
+	Velocity(ctx context.Context, userID, txnID string) (int, error)
 }
 
 type RedisStore struct {
@@ -27,15 +25,25 @@ func NewRedisStore(addr string, window time.Duration) *RedisStore {
 	}
 }
 
-func (s *RedisStore) Velocity(ctx context.Context, UserID string) (int, error) {
-	key := "velocity:" + UserID
-	count, err := s.client.Incr(key).Result()
+func (s *RedisStore) Velocity(ctx context.Context, userID, txnID string) (int, error) {
+	key := "velocity:" + userID
+	now := time.Now()
+	score := float64(now.UnixNano())
+	cutoff := now.Add(-s.window).UnixNano()
+
+	pipe := s.client.TxPipeline()
+	pipe.ZAdd(ctx, key, redis.Z{Score: score, Member: txnID})
+	pipe.ZRemRangeByScore(ctx, key, "-inf", fmt.Sprint(cutoff))
+	countCmd := pipe.ZCard(ctx, key)
+	pipe.Expire(ctx, key, s.window)
+	_, err := pipe.Exec(ctx)
+	if err != nil {
+		return 0, err
+	}
+	count, err := countCmd.Result()
 	if err != nil {
 		return 0, err
 	}
 
-	if count == 1 {
-		err = s.client.Expire(key, s.window).Err()
-	}
 	return int(count), err
 }

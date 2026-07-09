@@ -9,8 +9,8 @@ import (
 
 // Service struct for holding dependencies
 type Service struct {
-	Store feature.Store
-	Rules []rules.Rule
+	store feature.Store
+	rules []rules.Rule
 }
 
 // Transaction struct holding the transaction details
@@ -32,14 +32,14 @@ type Decision struct {
 // NewService creates a new instance of the Service struct with the provided store and rules.
 func NewService(store feature.Store, rules []rules.Rule) *Service {
 	return &Service{
-		Store: store,
-		Rules: rules,
+		store: store,
+		rules: rules,
 	}
 }
 
 func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error) {
 	// Orchestrate the decision-making process
-	velocity, err := s.Store.Velocity(ctx, txn.UserID)
+	velocity, err := s.store.Velocity(ctx, txn.UserID, txn.TxnID)
 	if err != nil {
 		return Decision{}, err
 	}
@@ -48,7 +48,7 @@ func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error)
 		Amount:   txn.Amount,
 		Currency: txn.Currency,
 	}
-	score, triggeredRules := rules.ScoreTransaction(feats, s.Rules)
+	score, triggeredRules := rules.ScoreTransaction(feats, s.rules)
 	classification := rules.Classify(score)
 
 	return Decision{
