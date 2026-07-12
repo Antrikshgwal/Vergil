@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"log/slog"
 	"net/http"
+	"os"
+	"strings"
 	"time"
 
 	"github.com/Antrikshgwal/Vergil/internal/decision"
@@ -38,14 +40,18 @@ type api struct {
 }
 
 func (a *api) handleTransaction(w http.ResponseWriter, r *http.Request) {
+	start := time.Now()
 	var req transactionRequest
 
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
+		slog.Warn("reject transaction: bad request body", "remote", r.RemoteAddr, "err", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	if req.TxnID == "" || req.UserID == "" || req.Amount <= 0 || req.Currency == "" {
+		slog.Warn("reject transaction: missing or invalid fields",
+			"txn_id", req.TxnID, "user_id", req.UserID, "amount", req.Amount, "currency", req.Currency)
 		http.Error(w, "Missing or invalid fields in request", http.StatusBadRequest)
 		return
 	}
@@ -57,6 +63,7 @@ func (a *api) handleTransaction(w http.ResponseWriter, r *http.Request) {
 		Currency: req.Currency,
 	})
 	if err != nil {
+		slog.Error("decide failed", "txn_id", req.TxnID, "err", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -67,12 +74,37 @@ func (a *api) handleTransaction(w http.ResponseWriter, r *http.Request) {
 		Classification: classificationType(d.Classification),
 		Score:          d.Score,
 	})
+
+	slog.Debug("transaction handled",
+		"txn_id", d.TxnID,
+		"classification", d.Classification,
+		"duration_ms", time.Since(start).Milliseconds(),
+	)
+}
+
+// setupLogger builds the process-wide structured logger. Output is JSON to
+// stdout; the level is read from LOG_LEVEL (DEBUG/INFO/WARN/ERROR), default INFO.
+func setupLogger() {
+	level := slog.LevelInfo
+	if lv := os.Getenv("LOG_LEVEL"); lv != "" {
+		_ = level.UnmarshalText([]byte(strings.ToUpper(lv)))
+	}
+	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: level}))
+	slog.SetDefault(logger)
 }
 
 func main() {
-	a := &api{}
+	setupLogger()
+
+	const (
+		addr      = ":8080"
+		redisAddr = "localhost:6379"
+		kafkaAddr = "localhost:9092"
+		topic     = "decisions"
+	)
+
 	mux := http.NewServeMux()
-	fs := feature.NewRedisStore("localhost:6379", 60*time.Second)
+	fs := feature.NewRedisStore(redisAddr, 60*time.Second)
 	ruleset := []rules.Rule{
 		rules.HighVelocityRule{Threshold: 5, Point: 0.5},
 		rules.HighAmountRule{Threshold: 1000, Point: 0.5},
@@ -82,9 +114,15 @@ func main() {
 			Point:   0.3,
 		},
 	}
-	pub := event.NewKafkaPublisher([]string{"localhost:9092"}, "decisions")
+	pub := event.NewKafkaPublisher([]string{kafkaAddr}, topic)
 	svc := decision.NewService(fs, ruleset, pub)
-	a = &api{svc: svc}
+	a := &api{svc: svc}
 	mux.HandleFunc("POST /v1/transactions", a.handleTransaction)
-	log.Fatal(http.ListenAndServe(":8080", mux))
+
+	slog.Info("starting api server",
+		"addr", addr, "redis", redisAddr, "kafka", kafkaAddr, "topic", topic, "rules", len(ruleset))
+	if err := http.ListenAndServe(addr, mux); err != nil {
+		slog.Error("server exited", "err", err)
+		os.Exit(1)
+	}
 }

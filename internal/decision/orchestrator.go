@@ -2,7 +2,7 @@ package decision
 
 import (
 	"context"
-	"log"
+	"log/slog"
 	"time"
 
 	"github.com/Antrikshgwal/Vergil/internal/event"
@@ -69,6 +69,17 @@ func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error)
 		Reason:         triggeredRules,
 	}
 
+	slog.Info("decision made",
+		"txn_id", d.TxnID,
+		"user_id", txn.UserID,
+		"classification", d.Classification,
+		"score", d.Score,
+		"reasons", d.Reason,
+		"velocity", velocity,
+		"amount", txn.Amount,
+		"amount_sum", amountSum,
+	)
+
 	// Emit the audit event off the request path. KafkaPublisher enqueues on an
 	// async writer, so Publish does not block on the broker. A publish failure
 	// must not fail an already-made decision, so it is logged, not returned.
@@ -82,7 +93,7 @@ func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error)
 			DecidedAt:      time.Now().UTC(),
 		}
 		if err := s.pub.Publish(ctx, evt); err != nil {
-			log.Printf("decision publish failed for txn %s: %v", d.TxnID, err)
+			slog.Error("decision publish failed", "txn_id", d.TxnID, "err", err)
 		}
 	}
 

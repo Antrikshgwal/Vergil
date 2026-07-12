@@ -3,7 +3,7 @@ package event
 import (
 	"context"
 	"encoding/json"
-	"log"
+	"log/slog"
 
 	"github.com/segmentio/kafka-go"
 )
@@ -31,8 +31,10 @@ func NewKafkaPublisher(brokers []string, topic string) *KafkaPublisher {
 			AllowAutoTopicCreation: true,
 			Completion: func(msgs []kafka.Message, err error) {
 				if err != nil {
-					log.Printf("kafka publish failed for %d message(s): %v", len(msgs), err)
+					slog.Error("kafka publish failed", "topic", topic, "messages", len(msgs), "err", err)
+					return
 				}
+				slog.Debug("kafka publish delivered", "topic", topic, "messages", len(msgs))
 			},
 		},
 	}
