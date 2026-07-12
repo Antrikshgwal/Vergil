@@ -13,11 +13,11 @@ services:
   ports:
     - "5432:5432"
   environment:
-    POSTGRES_USER: vergil
-    POSTGRES_PASSWORD: vergil
-    POSTGRES_DB: vergil
+    POSTGRES_USER: ${POSTGRES_USER:-vergil}
+    POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in deploy/.env}
+    POSTGRES_DB: ${POSTGRES_DB:-vergil}
   healthcheck:
-    test: ["CMD-SHELL", "pg_isready -U vergil -d vergil"]
+    test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-vergil} -d ${POSTGRES_DB:-vergil}"]
     interval: 5s
     timeout: 3s
     retries: 5

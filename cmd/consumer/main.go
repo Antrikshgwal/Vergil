@@ -2,7 +2,9 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log/slog"
+	"net/url"
 	"os"
 	"os/signal"
 	"strings"
@@ -23,6 +25,32 @@ func setupLogger() {
 	slog.SetDefault(logger)
 }
 
+// getenv returns the env var or a fallback when it is empty.
+func getenv(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
+
+// databaseDSN builds the Postgres DSN from environment variables. Host, port,
+// user, and database name have local-dev defaults, but the password is required
+// and has no default — no credential is baked into the binary. Returns an error
+// if PGPASSWORD is unset so the process fails fast with a clear message.
+func databaseDSN() (string, error) {
+	pass := os.Getenv("PGPASSWORD")
+	if pass == "" {
+		return "", fmt.Errorf("PGPASSWORD is not set")
+	}
+	return fmt.Sprintf("postgres://%s:%s@%s:%s/%s",
+		getenv("PGUSER", "vergil"),
+		url.QueryEscape(pass),
+		getenv("PGHOST", "localhost"),
+		getenv("PGPORT", "5432"),
+		getenv("PGDATABASE", "vergil"),
+	), nil
+}
+
 func main() {
 	setupLogger()
 
@@ -30,8 +58,13 @@ func main() {
 		kafkaAddr = "localhost:9092"
 		topic     = "decisions"
 		groupID   = "vergil-audit"
-		dsn       = "postgres://vergil:vergil@localhost:5432/vergil"
 	)
+
+	dsn, err := databaseDSN()
+	if err != nil {
+		slog.Error("database config invalid", "err", err)
+		os.Exit(1)
+	}
 
 	// Cancel the run loop on Ctrl+C / SIGTERM. Full graceful drain is 4.1.
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
