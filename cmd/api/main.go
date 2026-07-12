@@ -1,11 +1,15 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"log/slog"
 	"net/http"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 	"time"
 
 	"github.com/Antrikshgwal/Vergil/internal/decision"
@@ -119,10 +123,34 @@ func main() {
 	a := &api{svc: svc}
 	mux.HandleFunc("POST /v1/transactions", a.handleTransaction)
 
-	slog.Info("starting api server",
-		"addr", addr, "redis", redisAddr, "kafka", kafkaAddr, "topic", topic, "rules", len(ruleset))
-	if err := http.ListenAndServe(addr, mux); err != nil {
-		slog.Error("server exited", "err", err)
-		os.Exit(1)
+	srv := &http.Server{Addr: addr, Handler: mux}
+
+	// Cancel ctx on SIGINT/SIGTERM to begin graceful shutdown.
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
+
+	go func() {
+		slog.Info("starting api server",
+			"addr", addr, "redis", redisAddr, "kafka", kafkaAddr, "topic", topic, "rules", len(ruleset))
+		if err := srv.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			slog.Error("server exited", "err", err)
+			stop() // unblock main so the process exits
+		}
+	}()
+
+	<-ctx.Done()
+	slog.Info("shutdown signal received, draining")
+
+	// Correct order: drain in-flight HTTP requests first (handlers enqueue into
+	// the publisher), then flush and close the async publisher so buffered
+	// events are not lost.
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	if err := srv.Shutdown(shutdownCtx); err != nil {
+		slog.Error("http shutdown error", "err", err)
 	}
+	if err := pub.Close(); err != nil {
+		slog.Error("publisher close error", "err", err)
+	}
+	slog.Info("api stopped")
 }

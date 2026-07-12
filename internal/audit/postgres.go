@@ -37,10 +37,14 @@ func (s *PostgresStore) Migrate(ctx context.Context) error {
 	return err
 }
 
+// Save inserts one decision row. It is idempotent: txn_id is the primary key
+// and ON CONFLICT DO NOTHING makes a redelivered Kafka message (at-least-once)
+// a no-op instead of a duplicate-key error, so reprocessing is safe.
 func (s *PostgresStore) Save(ctx context.Context, e event.DecisionEvent) error {
 	_, err := s.pool.Exec(ctx,
 		`INSERT INTO decisions (txn_id, user_id, classification, score, reasons, decided_at)
-		 VALUES ($1, $2, $3, $4, $5, $6)`,
+		 VALUES ($1, $2, $3, $4, $5, $6)
+		 ON CONFLICT (txn_id) DO NOTHING`,
 		e.TxnID, e.UserID, e.Classification, e.Score, e.Reasons, e.DecidedAt,
 	)
 	return err

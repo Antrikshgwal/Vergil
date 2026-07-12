@@ -15,9 +15,17 @@ import (
 	"github.com/Antrikshgwal/Vergil/internal/event"
 )
 
-// batchFillTimeout bounds how long we wait to top up a batch after the first
-// message arrives. It trades a little latency for larger, cheaper commits.
-const batchFillTimeout = 50 * time.Millisecond
+const (
+	// batchFillTimeout bounds how long we wait to top up a batch after the
+	// first message arrives. It trades a little latency for larger, cheaper
+	// commits.
+	batchFillTimeout = 50 * time.Millisecond
+
+	// drainTimeout caps how long a batch already in flight may take to finish
+	// saving and committing after a shutdown signal, so a graceful stop still
+	// terminates promptly.
+	drainTimeout = 30 * time.Second
+)
 
 // Consumer reads DecisionEvents from Kafka and persists them via an AuditStore
 // using a hand-rolled bounded worker pool.
@@ -52,13 +60,16 @@ func NewConsumer(brokers []string, topic, groupID string, store audit.AuditStore
 	}
 }
 
-// Run consumes until ctx is cancelled. Returns nil on a clean cancellation and
-// an error if fetching, saving, or committing fails.
+// Run consumes until ctx is cancelled. On a shutdown signal it stops fetching
+// new work but always finishes and commits any batch already in flight (a
+// graceful drain), then returns nil. It returns an error if fetching, saving,
+// or committing fails.
 func (c *Consumer) Run(ctx context.Context) error {
 	for {
 		msgs, err := c.fetchBatch(ctx)
 		if err != nil {
-			if errors.Is(err, context.Canceled) {
+			if errors.Is(err, context.Canceled) || errors.Is(err, context.DeadlineExceeded) {
+				slog.Info("consumer stopped fetching, drained")
 				return nil
 			}
 			return err
@@ -67,19 +78,22 @@ func (c *Consumer) Run(ctx context.Context) error {
 			continue
 		}
 
-		if err := c.processBatch(ctx, msgs); err != nil {
-			return err
+		drainCtx, cancel := context.WithTimeout(context.WithoutCancel(ctx), drainTimeout)
+		start := time.Now()
+		perr := c.processBatch(drainCtx, msgs)
+		if perr == nil {
+			perr = c.reader.CommitMessages(drainCtx, msgs...)
+		}
+		cancel()
+		if perr != nil {
+			return perr
 		}
 
-		// Commit AFTER every write in the batch has landed. Detach the commit
-		// from ctx so a shutdown mid-batch still records the progress we made
-		// instead of forcing the whole batch to be reprocessed.
-		commitCtx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 5*time.Second)
-		err = c.reader.CommitMessages(commitCtx, msgs...)
-		cancel()
-		if err != nil {
-			return err
-		}
+		slog.Info("batch committed",
+			"messages", len(msgs),
+			"duration_ms", time.Since(start).Milliseconds(),
+			"lag", c.reader.Stats().Lag,
+		)
 	}
 }
 
@@ -118,9 +132,7 @@ func (c *Consumer) processBatch(ctx context.Context, msgs []kafka.Message) error
 		go func() {
 			defer wg.Done()
 			for m := range jobs {
-				if err := c.saveMessage(ctx, m); err != nil {
-					failures.Add(1)
-				}
+				c.handleOne(ctx, m, &failures)
 			}
 		}()
 	}
@@ -135,6 +147,24 @@ func (c *Consumer) processBatch(ctx context.Context, msgs []kafka.Message) error
 		return errors.New("batch had failed saves, leaving offsets uncommitted")
 	}
 	return nil
+}
+
+// handleOne processes one message with panic recovery. A panic in Save (or
+// anywhere below) is caught so it cannot kill the worker goroutine or crash the
+// process — the pool survives. A recovered panic is treated like a save failure:
+// it increments the failure count so the batch is not committed and the message
+// is redelivered.
+func (c *Consumer) handleOne(ctx context.Context, m kafka.Message, failures *atomic.Int64) {
+	defer func() {
+		if r := recover(); r != nil {
+			slog.Error("worker recovered from panic",
+				"partition", m.Partition, "offset", m.Offset, "panic", r)
+			failures.Add(1)
+		}
+	}()
+	if err := c.saveMessage(ctx, m); err != nil {
+		failures.Add(1)
+	}
 }
 
 // saveMessage decodes and persists one message. A message that never decodes is

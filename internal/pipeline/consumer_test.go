@@ -15,12 +15,16 @@ import (
 // fakeStore is a concurrency-safe AuditStore that records saved events and can
 // be told to fail on a specific txn id.
 type fakeStore struct {
-	mu     sync.Mutex
-	saved  []event.DecisionEvent
-	failOn string
+	mu      sync.Mutex
+	saved   []event.DecisionEvent
+	failOn  string
+	panicOn string
 }
 
 func (f *fakeStore) Save(ctx context.Context, e event.DecisionEvent) error {
+	if e.TxnID == f.panicOn {
+		panic("simulated store panic")
+	}
 	if e.TxnID == f.failOn {
 		return errors.New("boom")
 	}
@@ -91,6 +95,25 @@ func TestProcessBatchSaveFailureBlocksCommit(t *testing.T) {
 	}
 	if ids["bad"] {
 		t.Error("failed message must not be recorded as saved")
+	}
+}
+
+func TestProcessBatchRecoversPanic(t *testing.T) {
+	store := &fakeStore{panicOn: "boom"}
+	c := newTestConsumer(store)
+
+	msgs := []kafka.Message{msg(t, "ok1"), msg(t, "boom"), msg(t, "ok2")}
+
+	// A panicking save must not crash the process or kill the pool.
+	err := c.processBatch(context.Background(), msgs)
+	if err == nil {
+		t.Fatal("expected error when a worker panics, got nil")
+	}
+	// The pool survived: the other workers still saved their messages, and the
+	// batch is left uncommitted so it redelivers.
+	ids := store.savedIDs()
+	if !ids["ok1"] || !ids["ok2"] {
+		t.Errorf("pool should survive panic and save ok1/ok2, got %v", ids)
 	}
 }
 
