@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/Antrikshgwal/Vergil/internal/decision"
+	"github.com/Antrikshgwal/Vergil/internal/event"
 	"github.com/Antrikshgwal/Vergil/internal/feature"
 	"github.com/Antrikshgwal/Vergil/internal/rules"
 )
@@ -81,7 +82,8 @@ func main() {
 			Point:   0.3,
 		},
 	}
-	svc := decision.NewService(fs, ruleset)
+	pub := event.NewKafkaPublisher([]string{"localhost:9092"}, "decisions")
+	svc := decision.NewService(fs, ruleset, pub)
 	a = &api{svc: svc}
 	mux.HandleFunc("POST /v1/transactions", a.handleTransaction)
 	log.Fatal(http.ListenAndServe(":8080", mux))

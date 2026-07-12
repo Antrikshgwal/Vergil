@@ -2,7 +2,10 @@ package decision
 
 import (
 	"context"
+	"log"
+	"time"
 
+	"github.com/Antrikshgwal/Vergil/internal/event"
 	"github.com/Antrikshgwal/Vergil/internal/feature"
 	"github.com/Antrikshgwal/Vergil/internal/rules"
 )
@@ -11,6 +14,7 @@ import (
 type Service struct {
 	store feature.Store
 	rules []rules.Rule
+	pub   event.Publisher
 }
 
 // Transaction struct holding the transaction details
@@ -29,11 +33,13 @@ type Decision struct {
 	Reason         []string
 }
 
-// NewService creates a new instance of the Service struct with the provided store and rules.
-func NewService(store feature.Store, rules []rules.Rule) *Service {
+// NewService creates a new instance of the Service struct with the provided
+// store, rules, and event publisher. pub may be nil to disable publishing.
+func NewService(store feature.Store, rules []rules.Rule, pub event.Publisher) *Service {
 	return &Service{
 		store: store,
 		rules: rules,
+		pub:   pub,
 	}
 }
 
@@ -56,10 +62,29 @@ func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error)
 	score, triggeredRules := rules.ScoreTransaction(feats, s.rules)
 	classification := rules.Classify(score)
 
-	return Decision{
+	d := Decision{
 		TxnID:          txn.TxnID,
 		Classification: classification,
 		Score:          score,
 		Reason:         triggeredRules,
-	}, nil
+	}
+
+	// Emit the audit event off the request path. KafkaPublisher enqueues on an
+	// async writer, so Publish does not block on the broker. A publish failure
+	// must not fail an already-made decision, so it is logged, not returned.
+	if s.pub != nil {
+		evt := event.DecisionEvent{
+			TxnID:          d.TxnID,
+			UserID:         txn.UserID,
+			Classification: d.Classification,
+			Score:          d.Score,
+			Reasons:        d.Reason,
+			DecidedAt:      time.Now().UTC(),
+		}
+		if err := s.pub.Publish(ctx, evt); err != nil {
+			log.Printf("decision publish failed for txn %s: %v", d.TxnID, err)
+		}
+	}
+
+	return d, nil
 }
