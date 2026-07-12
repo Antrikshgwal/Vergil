@@ -11,7 +11,8 @@ services:
  postgres:
   image: postgres:16-alpine
   ports:
-    - "5432:5432"
+    # Host 5433 to avoid clashing with a locally-installed Postgres on 5432.
+    - "5433:5432"
   environment:
     POSTGRES_USER: ${POSTGRES_USER:-vergil}
     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in deploy/.env}

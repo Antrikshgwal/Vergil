@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log/slog"
 	"sync"
 	"sync/atomic"
@@ -53,6 +54,10 @@ func NewConsumer(brokers []string, topic, groupID string, store audit.AuditStore
 			Topic:       topic,
 			GroupID:     groupID,
 			StartOffset: kafka.FirstOffset,
+			// Surface the reader's internal group-coordination and fetch errors
+			// instead of failing silently. Info-level chatter goes to Debug.
+			Logger:      kafka.LoggerFunc(func(msg string, args ...any) { slog.Debug(fmt.Sprintf(msg, args...)) }),
+			ErrorLogger: kafka.LoggerFunc(func(msg string, args ...any) { slog.Error(fmt.Sprintf(msg, args...)) }),
 		}),
 		store:     store,
 		workers:   workers,
