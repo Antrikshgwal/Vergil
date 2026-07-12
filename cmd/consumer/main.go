@@ -84,6 +84,14 @@ func main() {
 		os.Exit(1)
 	}
 
+	// Ensure the topic exists before the reader joins the group, so starting the
+	// consumer before any producer does not leave it idling on an empty
+	// assignment.
+	if err := pipeline.EnsureTopic(ctx, []string{kafkaAddr}, topic, 1); err != nil {
+		slog.Error("ensure topic failed", "topic", topic, "err", err)
+		os.Exit(1)
+	}
+
 	c := pipeline.NewConsumer([]string{kafkaAddr}, topic, groupID, store, workers, batchSize)
 	defer c.Close()
 
