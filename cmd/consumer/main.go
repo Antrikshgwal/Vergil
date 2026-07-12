@@ -58,6 +58,8 @@ func main() {
 		kafkaAddr = "localhost:9092"
 		topic     = "decisions"
 		groupID   = "vergil-audit"
+		workers   = 4
+		batchSize = 100
 	)
 
 	dsn, err := databaseDSN()
@@ -82,10 +84,11 @@ func main() {
 		os.Exit(1)
 	}
 
-	c := pipeline.NewConsumer([]string{kafkaAddr}, topic, groupID, store)
+	c := pipeline.NewConsumer([]string{kafkaAddr}, topic, groupID, store, workers, batchSize)
 	defer c.Close()
 
-	slog.Info("consumer starting", "kafka", kafkaAddr, "topic", topic, "group", groupID)
+	slog.Info("consumer starting",
+		"kafka", kafkaAddr, "topic", topic, "group", groupID, "workers", workers, "batch_size", batchSize)
 	if err := c.Run(ctx); err != nil {
 		slog.Error("consumer stopped with error", "err", err)
 		os.Exit(1)
