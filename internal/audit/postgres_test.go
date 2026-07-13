@@ -22,7 +22,7 @@ func TestSaveIdempotent(t *testing.T) {
 	}
 
 	ctx := context.Background()
-	store, err := NewPostgresStore(ctx, dsn)
+	store, err := NewPostgresStore(ctx, dsn, 4)
 	if err != nil {
 		t.Fatalf("connect: %v", err)
 	}

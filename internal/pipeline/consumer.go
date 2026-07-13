@@ -14,6 +14,7 @@ import (
 
 	"github.com/Antrikshgwal/Vergil/internal/audit"
 	"github.com/Antrikshgwal/Vergil/internal/event"
+	"github.com/Antrikshgwal/Vergil/internal/metrics"
 )
 
 const (
@@ -94,10 +95,17 @@ func (c *Consumer) Run(ctx context.Context) error {
 			return perr
 		}
 
+		// Surface throughput and backpressure both in logs and Prometheus: when
+		// Postgres slows, batch duration climbs and Kafka lag grows.
+		elapsed := time.Since(start)
+		lag := c.reader.Stats().Lag
+		metrics.BatchDuration.Observe(elapsed.Seconds())
+		metrics.MessagesProcessed.Add(float64(len(msgs)))
+		metrics.KafkaLag.Set(float64(lag))
 		slog.Info("batch committed",
 			"messages", len(msgs),
-			"duration_ms", time.Since(start).Milliseconds(),
-			"lag", c.reader.Stats().Lag,
+			"duration_ms", elapsed.Milliseconds(),
+			"lag", lag,
 		)
 	}
 }
@@ -154,11 +162,6 @@ func (c *Consumer) processBatch(ctx context.Context, msgs []kafka.Message) error
 	return nil
 }
 
-// handleOne processes one message with panic recovery. A panic in Save (or
-// anywhere below) is caught so it cannot kill the worker goroutine or crash the
-// process — the pool survives. A recovered panic is treated like a save failure:
-// it increments the failure count so the batch is not committed and the message
-// is redelivered.
 func (c *Consumer) handleOne(ctx context.Context, m kafka.Message, failures *atomic.Int64) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -186,7 +189,7 @@ func (c *Consumer) saveMessage(ctx context.Context, m kafka.Message) error {
 		slog.Error("save failed", "txn_id", e.TxnID, "offset", m.Offset, "err", err)
 		return err
 	}
-	slog.Info("audit persisted",
+	slog.Debug("audit persisted",
 		"txn_id", e.TxnID, "classification", e.Classification,
 		"partition", m.Partition, "offset", m.Offset)
 	return nil

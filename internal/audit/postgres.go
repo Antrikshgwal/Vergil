@@ -19,8 +19,19 @@ type PostgresStore struct {
 }
 
 // NewPostgresStore opens a connection pool for dsn and verifies it with a Ping.
-func NewPostgresStore(ctx context.Context, dsn string) (*PostgresStore, error) {
-	pool, err := pgxpool.New(ctx, dsn)
+// maxConns caps the pool: size it to the consumer's worker count, since during
+// a batch up to that many workers issue a Save concurrently — fewer conns than
+// workers would serialise saves and throttle throughput. A value <= 0 leaves
+// the pgx default (max(4, numCPU)).
+func NewPostgresStore(ctx context.Context, dsn string, maxConns int32) (*PostgresStore, error) {
+	cfg, err := pgxpool.ParseConfig(dsn)
+	if err != nil {
+		return nil, err
+	}
+	if maxConns > 0 {
+		cfg.MaxConns = maxConns
+	}
+	pool, err := pgxpool.NewWithConfig(ctx, cfg)
 	if err != nil {
 		return nil, err
 	}

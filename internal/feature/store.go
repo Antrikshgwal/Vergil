@@ -8,10 +8,14 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
+// Snapshot is the set of per-user features read for one transaction.
+type Snapshot struct {
+	Velocity  int     // sliding-window transaction count
+	AmountSum float64 // fixed-window running spend total
+}
 
 type Store interface {
-	Velocity(ctx context.Context, userID, txnID string) (int, error)
-	AmountSum(ctx context.Context, userID string, amount float64) (float64, error)
+	Snapshot(ctx context.Context, userID, txnID string, amount float64) (Snapshot, error)
 }
 
 type RedisStore struct {
@@ -26,56 +30,49 @@ func NewRedisStore(addr string, window time.Duration) *RedisStore {
 	}
 }
 
-func (s *RedisStore) Velocity(ctx context.Context, userID, txnID string) (int, error) {
-	key := "velocity:" + userID
+// Snapshot computes both features for a user in a single Redis round trip.
+//
+// Velocity is a sliding window over a sorted set: ZADD this txn, drop members
+// older than the window, ZCARD the survivors. AmountSum is a fixed window: a key
+// bucketed by window index (now/window) accumulated with INCRBYFLOAT. Both keys
+// get an EXPIRE so they self-clean.
+//
+// The two were originally two separate pipelines (two round trips per request);
+// profiling under load showed the Redis round trip dominated decision latency,
+// so they are merged into one TxPipeline here — one RTT on the hot path.
+//
+// Fixed-window trade-off: the amount window boundary is a hard cliff, so a burst
+// straddling it can push ~2x the intended amount through. The sliding velocity
+// window smooths that but pays by storing every event.
+func (s *RedisStore) Snapshot(ctx context.Context, userID, txnID string, amount float64) (Snapshot, error) {
 	now := time.Now()
+
+	velKey := "velocity:" + userID
 	score := float64(now.UnixNano())
 	cutoff := now.Add(-s.window).UnixNano()
 
+	bucket := now.Unix() / int64(s.window.Seconds())
+	amtKey := fmt.Sprintf("amount:%s:%d", userID, bucket)
+
 	pipe := s.client.TxPipeline()
-	pipe.ZAdd(ctx, key, redis.Z{Score: score, Member: txnID})
-	pipe.ZRemRangeByScore(ctx, key, "-inf", fmt.Sprint(cutoff))
-	countCmd := pipe.ZCard(ctx, key)
-	pipe.Expire(ctx, key, s.window)
-	_, err := pipe.Exec(ctx)
-	if err != nil {
-		return 0, err
+	pipe.ZAdd(ctx, velKey, redis.Z{Score: score, Member: txnID})
+	pipe.ZRemRangeByScore(ctx, velKey, "-inf", fmt.Sprint(cutoff))
+	countCmd := pipe.ZCard(ctx, velKey)
+	pipe.Expire(ctx, velKey, s.window)
+	sumCmd := pipe.IncrByFloat(ctx, amtKey, amount)
+	pipe.Expire(ctx, amtKey, s.window)
+	if _, err := pipe.Exec(ctx); err != nil {
+		return Snapshot{}, err
 	}
+
 	count, err := countCmd.Result()
 	if err != nil {
-		return 0, err
+		return Snapshot{}, err
 	}
-
-	return int(count), err
-}
-
-// AmountSum accumulates a user's spend inside a fixed time window and returns
-// the running total for the current window.
-//
-// The key is bucketed by window index (now / window), so every key owns a hard
-// [start, start+window) slot. INCRBYFLOAT adds this txn's amount to the slot;
-// EXPIRE lets the slot self-clean once it can no longer be hit.
-//
-// Trade-off vs the sliding sorted-set Velocity above: this is O(1) memory and a
-// single round trip — cheap — but the window boundary is a cliff. A user can
-// spend up to the limit at the tail of one slot and again at the head of the
-// next, pushing ~2x the intended amount through in a burst that straddles the
-// boundary. The sliding window smooths that, but pays by storing every event.
-func (s *RedisStore) AmountSum(ctx context.Context, userID string, amount float64) (float64, error) {
-	bucket := time.Now().Unix() / int64(s.window.Seconds())
-	key := fmt.Sprintf("amount:%s:%d", userID, bucket)
-
-	pipe := s.client.TxPipeline()
-	sumCmd := pipe.IncrByFloat(ctx, key, amount)
-	pipe.Expire(ctx, key, s.window)
-	if _, err := pipe.Exec(ctx); err != nil {
-		return 0, err
-	}
-
 	sum, err := sumCmd.Result()
 	if err != nil {
-		return 0, err
+		return Snapshot{}, err
 	}
 
-	return sum, nil
+	return Snapshot{Velocity: int(count), AmountSum: sum}, nil
 }

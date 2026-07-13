@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/Antrikshgwal/Vergil/internal/event"
+	"github.com/Antrikshgwal/Vergil/internal/feature"
 	"github.com/Antrikshgwal/Vergil/internal/rules"
 )
 
@@ -13,12 +14,8 @@ type FakeStore struct {
 	amountSum float64
 }
 
-func (fs *FakeStore) Velocity(ctx context.Context, userID, txnID string) (int, error) {
-	return fs.n, nil
-}
-
-func (fs *FakeStore) AmountSum(ctx context.Context, userID string, amount float64) (float64, error) {
-	return fs.amountSum, nil
+func (fs *FakeStore) Snapshot(ctx context.Context, userID, txnID string, amount float64) (feature.Snapshot, error) {
+	return feature.Snapshot{Velocity: fs.n, AmountSum: fs.amountSum}, nil
 }
 
 // recordingPublisher captures published events so tests can assert Decide emits

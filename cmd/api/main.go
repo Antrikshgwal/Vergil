@@ -6,8 +6,10 @@ import (
 	"errors"
 	"log/slog"
 	"net/http"
+	_ "net/http/pprof" // registers /debug/pprof on the default mux for the debug server
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -15,6 +17,7 @@ import (
 	"github.com/Antrikshgwal/Vergil/internal/decision"
 	"github.com/Antrikshgwal/Vergil/internal/event"
 	"github.com/Antrikshgwal/Vergil/internal/feature"
+	"github.com/Antrikshgwal/Vergil/internal/metrics"
 	"github.com/Antrikshgwal/Vergil/internal/rules"
 )
 
@@ -41,6 +44,29 @@ type transactionResponse struct {
 
 type api struct {
 	svc *decision.Service
+}
+
+// statusRecorder captures the response status so the latency histogram can be
+// labelled by it. Defaults to 200 when the handler never calls WriteHeader.
+type statusRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (r *statusRecorder) WriteHeader(code int) {
+	r.status = code
+	r.ResponseWriter.WriteHeader(code)
+}
+
+// withMetrics times the request and records it under the given route label.
+func withMetrics(route string, next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		start := time.Now()
+		rec := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
+		next(rec, r)
+		metrics.RequestDuration.WithLabelValues(route, strconv.Itoa(rec.status)).
+			Observe(time.Since(start).Seconds())
+	}
 }
 
 func (a *api) handleTransaction(w http.ResponseWriter, r *http.Request) {
@@ -72,6 +98,8 @@ func (a *api) handleTransaction(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	metrics.DecisionsTotal.WithLabelValues(d.Classification).Inc()
+
 	w.Header().Set("Content-Type", "application/json")
 	_ = json.NewEncoder(w).Encode(transactionResponse{
 		TxnID:          d.TxnID,
@@ -102,6 +130,7 @@ func main() {
 
 	const (
 		addr      = ":8080"
+		debugAddr = "localhost:6060"
 		redisAddr = "localhost:6379"
 		kafkaAddr = "localhost:9092"
 		topic     = "decisions"
@@ -121,9 +150,17 @@ func main() {
 	pub := event.NewKafkaPublisher([]string{kafkaAddr}, topic)
 	svc := decision.NewService(fs, ruleset, pub)
 	a := &api{svc: svc}
-	mux.HandleFunc("POST /v1/transactions", a.handleTransaction)
+	mux.HandleFunc("POST /v1/transactions", withMetrics("/v1/transactions", a.handleTransaction))
+	mux.Handle("GET /metrics", metrics.Handler())
 
 	srv := &http.Server{Addr: addr, Handler: mux}
+
+	// pprof + the default mux on a separate debug port, kept off the public api.
+	go func() {
+		if err := http.ListenAndServe(debugAddr, nil); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			slog.Error("debug server exited", "err", err)
+		}
+	}()
 
 	// Cancel ctx on SIGINT/SIGTERM to begin graceful shutdown.
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)

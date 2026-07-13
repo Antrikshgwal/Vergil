@@ -45,18 +45,14 @@ func NewService(store feature.Store, rules []rules.Rule, pub event.Publisher) *S
 
 func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error) {
 	// Orchestrate the decision-making process
-	velocity, err := s.store.Velocity(ctx, txn.UserID, txn.TxnID)
-	if err != nil {
-		return Decision{}, err
-	}
-	amountSum, err := s.store.AmountSum(ctx, txn.UserID, txn.Amount)
+	snap, err := s.store.Snapshot(ctx, txn.UserID, txn.TxnID, txn.Amount)
 	if err != nil {
 		return Decision{}, err
 	}
 	feats := rules.Features{
-		Velocity:  velocity,
+		Velocity:  snap.Velocity,
 		Amount:    txn.Amount,
-		AmountSum: amountSum,
+		AmountSum: snap.AmountSum,
 		Currency:  txn.Currency,
 	}
 	score, triggeredRules := rules.ScoreTransaction(feats, s.rules)
@@ -69,15 +65,15 @@ func (s *Service) Decide(ctx context.Context, txn Transaction) (Decision, error)
 		Reason:         triggeredRules,
 	}
 
-	slog.Info("decision made",
+	slog.Debug("decision made",
 		"txn_id", d.TxnID,
 		"user_id", txn.UserID,
 		"classification", d.Classification,
 		"score", d.Score,
 		"reasons", d.Reason,
-		"velocity", velocity,
+		"velocity", snap.Velocity,
 		"amount", txn.Amount,
-		"amount_sum", amountSum,
+		"amount_sum", snap.AmountSum,
 	)
 
 	// Emit the audit event off the request path. KafkaPublisher enqueues on an

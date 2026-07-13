@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net/http"
 	"net/url"
 	"os"
 	"os/signal"
@@ -11,6 +12,7 @@ import (
 	"syscall"
 
 	"github.com/Antrikshgwal/Vergil/internal/audit"
+	"github.com/Antrikshgwal/Vergil/internal/metrics"
 	"github.com/Antrikshgwal/Vergil/internal/pipeline"
 )
 
@@ -55,11 +57,12 @@ func main() {
 	setupLogger()
 
 	const (
-		kafkaAddr = "localhost:9092"
-		topic     = "decisions"
-		groupID   = "vergil-audit"
-		workers   = 4
-		batchSize = 100
+		kafkaAddr   = "localhost:9092"
+		topic       = "decisions"
+		groupID     = "vergil-audit"
+		workers     = 8
+		batchSize   = 100
+		metricsAddr = "localhost:6061"
 	)
 
 	dsn, err := databaseDSN()
@@ -72,7 +75,9 @@ func main() {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	store, err := audit.NewPostgresStore(ctx, dsn)
+	// Size the pool to the worker count: each worker holds one connection while
+	// saving, so maxConns == workers avoids both starvation and idle conns.
+	store, err := audit.NewPostgresStore(ctx, dsn, workers)
 	if err != nil {
 		slog.Error("connect postgres failed", "err", err)
 		os.Exit(1)
@@ -94,6 +99,16 @@ func main() {
 
 	c := pipeline.NewConsumer([]string{kafkaAddr}, topic, groupID, store, workers, batchSize)
 	defer c.Close()
+
+	// Expose Prometheus metrics on a side port.
+	metrics.PoolWorkers.Set(float64(workers))
+	go func() {
+		mux := http.NewServeMux()
+		mux.Handle("GET /metrics", metrics.Handler())
+		if err := http.ListenAndServe(metricsAddr, mux); err != nil && err != http.ErrServerClosed {
+			slog.Error("metrics server exited", "err", err)
+		}
+	}()
 
 	slog.Info("consumer starting",
 		"kafka", kafkaAddr, "topic", topic, "group", groupID, "workers", workers, "batch_size", batchSize)
