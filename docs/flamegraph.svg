@@ -1,0 +1,1987 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" font-family="Menlo,Consolas,monospace" font-size="11">
+<rect width="1200" height="780" fill="#1e1e1e"/>
+<text x="10" y="20" fill="#e8e8e8" font-size="14" font-weight="bold">Vergil api under load — before the Redis-round-trip fix (30s CPU profile)</text>
+<text x="10" y="34" fill="#999" font-size="11">5346 samples &#8226; width = share of total CPU time &#8226; hover for full frame + sample count</text>
+<g><title>net/http.(*conn).serve
+3128 samples (58.5%)</title><rect x="0.0" y="40" width="701.6" height="17" fill="hsl(42,83%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="53" fill="#111" clip-path="none">http.(*conn).serve</text></g>
+<g><title>net/http.serverHandler.ServeHTTP
+2205 samples (41.2%)</title><rect x="0.0" y="58" width="494.4" height="17" fill="hsl(59,83%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="71" fill="#111" clip-path="none">http.serverHandler.ServeHTTP</text></g>
+<g><title>net/http.(*ServeMux).ServeHTTP
+2204 samples (41.2%)</title><rect x="0.0" y="76" width="494.2" height="17" fill="hsl(58,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="89" fill="#111" clip-path="none">http.(*ServeMux).ServeHTTP</text></g>
+<g><title>net/http.HandlerFunc.ServeHTTP
+2181 samples (40.8%)</title><rect x="0.0" y="94" width="489.1" height="17" fill="hsl(43,80%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="107" fill="#111" clip-path="none">http.HandlerFunc.ServeHTTP</text></g>
+<g><title>main.main.withMetrics.func3
+2180 samples (40.8%)</title><rect x="0.0" y="112" width="488.8" height="17" fill="hsl(50,90%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="125" fill="#111" clip-path="none">main.main.withMetrics.func3</text></g>
+<g><title>main.(*api).handleTransaction
+2138 samples (40.0%)</title><rect x="0.0" y="130" width="479.4" height="17" fill="hsl(18,94%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="143" fill="#111" clip-path="none">main.(*api).handleTransaction</text></g>
+<g><title>internal/decision.(*Service).Decide
+1872 samples (35.0%)</title><rect x="0.0" y="148" width="419.7" height="17" fill="hsl(31,82%,46%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="161" fill="#111" clip-path="none">decision.(*Service).Decide</text></g>
+<g><title>internal/feature.(*RedisStore).Velocity
+820 samples (15.3%)</title><rect x="0.0" y="166" width="183.6" height="17" fill="hsl(18,87%,48%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="179" fill="#111" clip-path="none">feature.(*RedisStore).Veloci…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*Pipeline).Exec
+803 samples (15.0%)</title><rect x="0.0" y="184" width="179.7" height="17" fill="hsl(18,76%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="197" fill="#111" clip-path="none">v9.(*Pipeline).Exec</text></g>
+<g><title>internal/feature.(*RedisStore).Velocity.(*Client).TxPipeline.func1
+803 samples (15.0%)</title><rect x="0.0" y="202" width="179.7" height="17" fill="hsl(32,93%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="215" fill="#111" clip-path="none">feature.(*RedisStore).Veloci…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*hooksMixin).processTxPipelineHook
+791 samples (14.8%)</title><rect x="0.0" y="220" width="177.1" height="17" fill="hsl(16,93%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="233" fill="#111" clip-path="none">v9.(*hooksMixin).processTxP…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).processTxPipeline
+788 samples (14.7%)</title><rect x="0.0" y="238" width="176.4" height="17" fill="hsl(31,83%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="251" fill="#111" clip-path="none">v9.(*baseClient).processTxP…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).generalProcessPipeline
+787 samples (14.7%)</title><rect x="0.0" y="256" width="176.2" height="17" fill="hsl(35,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="269" fill="#111" clip-path="none">v9.(*baseClient).generalPro…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).withConn
+782 samples (14.6%)</title><rect x="0.0" y="274" width="175.0" height="17" fill="hsl(10,75%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="287" fill="#111" clip-path="none">v9.(*baseClient).withConn</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).generalProcessPipeline.func1
+726 samples (13.6%)</title><rect x="0.0" y="292" width="162.5" height="17" fill="hsl(38,93%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="305" fill="#111" clip-path="none">v9.(*baseClient).generalP…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).txPipelineProcessCmds
+722 samples (13.5%)</title><rect x="0.0" y="310" width="161.6" height="17" fill="hsl(24,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="323" fill="#111" clip-path="none">v9.(*baseClient).txPipeli…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*Conn).WithWriter
+540 samples (10.1%)</title><rect x="0.0" y="328" width="120.7" height="17" fill="hsl(37,94%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="341" fill="#111" clip-path="none">pool.(*Conn).WithW…</text></g>
+<g><title>bufio.(*Writer).Flush
+472 samples (8.8%)</title><rect x="0.0" y="346" width="105.4" height="17" fill="hsl(38,82%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="359" fill="#111" clip-path="none">bufio.(*Writer).…</text></g>
+<g><title>net.(*conn).Write
+470 samples (8.8%)</title><rect x="0.0" y="364" width="105.0" height="17" fill="hsl(57,93%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="377" fill="#111" clip-path="none">net.(*conn).Write</text></g>
+<g><title>net.(*netFD).Write
+468 samples (8.8%)</title><rect x="0.0" y="382" width="104.6" height="17" fill="hsl(13,83%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="395" fill="#111" clip-path="none">net.(*netFD).Wr…</text></g>
+<g><title>internal/poll.(*FD).Write
+468 samples (8.8%)</title><rect x="0.0" y="400" width="104.6" height="17" fill="hsl(41,81%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="413" fill="#111" clip-path="none">poll.(*FD).Write</text></g>
+<g><title>internal/poll.(*FD).execIO
+454 samples (8.5%)</title><rect x="0.0" y="418" width="101.4" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="431" fill="#111" clip-path="none">poll.(*FD).exec…</text></g>
+<g><title>internal/poll.(*FD).Write.func2
+436 samples (8.2%)</title><rect x="0.0" y="436" width="97.4" height="17" fill="hsl(19,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="449" fill="#111" clip-path="none">poll.(*FD).Wri…</text></g>
+<g><title>syscall.WSASend
+436 samples (8.2%)</title><rect x="0.0" y="454" width="97.4" height="17" fill="hsl(51,78%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="467" fill="#111" clip-path="none">syscall.WSASend</text></g>
+<g><title>syscall.SyscallN
+435 samples (8.1%)</title><rect x="0.0" y="472" width="97.1" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="485" fill="#111" clip-path="none">syscall.Syscal…</text></g>
+<g><title>syscall.syscalln
+435 samples (8.1%)</title><rect x="0.0" y="490" width="97.1" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="503" fill="#111" clip-path="none">syscall.syscal…</text></g>
+<g><title>runtime.cgocall
+433 samples (8.1%)</title><rect x="0.0" y="508" width="96.7" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="2.0" y="521" fill="#111" clip-path="none">runtime.cgocall</text></g>
+<g><title>runtime.(*Pinner).Unpin
+10 samples (0.2%)</title><rect x="97.9" y="436" width="1.7" height="17" fill="hsl(40,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*pinner).unpin
+10 samples (0.2%)</title><rect x="97.9" y="454" width="1.7" height="17" fill="hsl(17,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.setPinned
+3 samples (0.1%)</title><rect x="97.9" y="472" width="0.5" height="17" fill="hsl(45,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+3 samples (0.1%)</title><rect x="98.5" y="472" width="0.5" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+3 samples (0.1%)</title><rect x="98.5" y="490" width="0.5" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+12 samples (0.2%)</title><rect x="101.9" y="418" width="2.2" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+11 samples (0.2%)</title><rect x="101.9" y="436" width="2.0" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.pinnerGetPtr
+7 samples (0.1%)</title><rect x="101.9" y="454" width="1.1" height="17" fill="hsl(51,94%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.inUserArenaChunk
+5 samples (0.1%)</title><rect x="101.9" y="472" width="0.6" height="17" fill="hsl(42,82%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.writeCmds
+39 samples (0.7%)</title><rect x="105.9" y="346" width="8.3" height="17" fill="hsl(19,87%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.writeCmd
+39 samples (0.7%)</title><rect x="105.9" y="364" width="8.3" height="17" fill="hsl(27,81%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).WriteArgs
+34 samples (0.6%)</title><rect x="105.9" y="382" width="7.1" height="17" fill="hsl(51,84%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).WriteArg
+15 samples (0.3%)</title><rect x="105.9" y="400" width="2.9" height="17" fill="hsl(30,80%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.AppendFloat
+5 samples (0.1%)</title><rect x="105.9" y="418" width="0.6" height="17" fill="hsl(37,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.genericFtoa
+5 samples (0.1%)</title><rect x="105.9" y="436" width="0.6" height="17" fill="hsl(16,92%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).int
+3 samples (0.1%)</title><rect x="107.1" y="418" width="0.5" height="17" fill="hsl(30,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).string
+11 samples (0.2%)</title><rect x="109.3" y="400" width="2.0" height="17" fill="hsl(39,82%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).bytes
+11 samples (0.2%)</title><rect x="109.3" y="418" width="2.0" height="17" fill="hsl(22,89%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strconv.AppendUint
+3 samples (0.1%)</title><rect x="109.3" y="436" width="0.5" height="17" fill="hsl(26,91%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).crlf
+3 samples (0.1%)</title><rect x="110.0" y="436" width="0.5" height="17" fill="hsl(59,81%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).writeLen
+4 samples (0.1%)</title><rect x="111.8" y="400" width="0.5" height="17" fill="hsl(54,94%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strconv.AppendUint
+3 samples (0.1%)</title><rect x="112.7" y="400" width="0.5" height="17" fill="hsl(26,91%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.AppendUint
+3 samples (0.1%)</title><rect x="112.7" y="418" width="0.5" height="17" fill="hsl(12,91%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).SetWriteDeadline
+21 samples (0.4%)</title><rect x="114.7" y="346" width="4.2" height="17" fill="hsl(27,84%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.setDeadlineImpl
+19 samples (0.4%)</title><rect x="114.7" y="364" width="3.8" height="17" fill="hsl(26,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollSetDeadline
+16 samples (0.3%)</title><rect x="114.7" y="382" width="3.1" height="17" fill="hsl(14,77%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*timer).modify
+9 samples (0.2%)</title><rect x="114.7" y="400" width="1.5" height="17" fill="hsl(39,75%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*timer).maybeAdd
+5 samples (0.1%)</title><rect x="114.7" y="418" width="0.6" height="17" fill="hsl(14,92%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*Conn).deadline
+3 samples (0.1%)</title><rect x="119.4" y="346" width="0.5" height="17" fill="hsl(35,78%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*Conn).WithReader
+178 samples (3.3%)</title><rect x="121.2" y="328" width="39.5" height="17" fill="hsl(22,78%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="341" fill="#111" clip-path="none">pool.…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).txPipelineProcessCmds.func2
+163 samples (3.0%)</title><rect x="121.2" y="346" width="36.1" height="17" fill="hsl(51,82%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="359" fill="#111" clip-path="none">v9.(…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*StatusCmd).readReply
+137 samples (2.6%)</title><rect x="121.2" y="364" width="30.3" height="17" fill="hsl(11,80%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="377" fill="#111" clip-path="none">v9.…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).ReadString
+135 samples (2.5%)</title><rect x="121.2" y="382" width="29.8" height="17" fill="hsl(28,79%,46%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="395" fill="#111" clip-path="none">pro…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).ReadLine
+125 samples (2.3%)</title><rect x="121.2" y="400" width="27.6" height="17" fill="hsl(38,86%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="413" fill="#111" clip-path="none">pro…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).readLine
+125 samples (2.3%)</title><rect x="121.2" y="418" width="27.6" height="17" fill="hsl(44,94%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="431" fill="#111" clip-path="none">pro…</text></g>
+<g><title>bufio.(*Reader).ReadSlice
+122 samples (2.3%)</title><rect x="121.2" y="436" width="26.9" height="17" fill="hsl(21,75%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="449" fill="#111" clip-path="none">buf…</text></g>
+<g><title>bufio.(*Reader).fill
+120 samples (2.2%)</title><rect x="121.2" y="454" width="26.4" height="17" fill="hsl(19,87%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="467" fill="#111" clip-path="none">buf…</text></g>
+<g><title>net.(*conn).Read
+119 samples (2.2%)</title><rect x="121.2" y="472" width="26.2" height="17" fill="hsl(25,83%,55%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="485" fill="#111" clip-path="none">net…</text></g>
+<g><title>net.(*netFD).Read
+116 samples (2.2%)</title><rect x="121.2" y="490" width="25.5" height="17" fill="hsl(26,84%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="503" fill="#111" clip-path="none">net…</text></g>
+<g><title>internal/poll.(*FD).Read
+114 samples (2.1%)</title><rect x="121.2" y="508" width="25.1" height="17" fill="hsl(44,86%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="521" fill="#111" clip-path="none">pol…</text></g>
+<g><title>internal/poll.(*FD).execIO
+105 samples (2.0%)</title><rect x="121.2" y="526" width="23.1" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="539" fill="#111" clip-path="none">po…</text></g>
+<g><title>internal/poll.(*FD).Read.func2
+63 samples (1.2%)</title><rect x="121.2" y="544" width="13.6" height="17" fill="hsl(58,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="557" fill="#111" clip-path="none">p…</text></g>
+<g><title>syscall.WSARecv
+63 samples (1.2%)</title><rect x="121.2" y="562" width="13.6" height="17" fill="hsl(29,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="575" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.SyscallN
+63 samples (1.2%)</title><rect x="121.2" y="580" width="13.6" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="593" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.syscalln
+63 samples (1.2%)</title><rect x="121.2" y="598" width="13.6" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="611" fill="#111" clip-path="none">s…</text></g>
+<g><title>runtime.cgocall
+63 samples (1.2%)</title><rect x="121.2" y="616" width="13.6" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="123.2" y="629" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.(*Pinner).Unpin
+16 samples (0.3%)</title><rect x="135.4" y="544" width="3.1" height="17" fill="hsl(40,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*pinner).unpin
+16 samples (0.3%)</title><rect x="135.4" y="562" width="3.1" height="17" fill="hsl(17,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.setPinned
+5 samples (0.1%)</title><rect x="135.4" y="580" width="0.6" height="17" fill="hsl(45,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+5 samples (0.1%)</title><rect x="136.5" y="580" width="0.6" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+5 samples (0.1%)</title><rect x="136.5" y="598" width="0.6" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+4 samples (0.1%)</title><rect x="136.5" y="616" width="0.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).waitIO
+10 samples (0.2%)</title><rect x="138.9" y="544" width="1.7" height="17" fill="hsl(31,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*pollDesc).wait
+7 samples (0.1%)</title><rect x="138.9" y="562" width="1.1" height="17" fill="hsl(59,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollWait
+7 samples (0.1%)</title><rect x="138.9" y="580" width="1.1" height="17" fill="hsl(28,77%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.netpollblock
+4 samples (0.1%)</title><rect x="138.9" y="598" width="0.5" height="17" fill="hsl(29,90%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/syscall/windows.WSAGetOverlappedResult
+9 samples (0.2%)</title><rect x="141.2" y="544" width="1.5" height="17" fill="hsl(22,94%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.SyscallN
+8 samples (0.1%)</title><rect x="141.2" y="562" width="1.3" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+8 samples (0.1%)</title><rect x="141.2" y="580" width="1.3" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+8 samples (0.1%)</title><rect x="141.2" y="598" width="1.3" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+6 samples (0.1%)</title><rect x="144.8" y="526" width="0.8" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+6 samples (0.1%)</title><rect x="144.8" y="544" width="0.8" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bytes.IndexByte
+3 samples (0.1%)</title><rect x="148.6" y="436" width="0.5" height="17" fill="hsl(15,75%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.slicebytetostring
+9 samples (0.2%)</title><rect x="149.3" y="400" width="1.5" height="17" fill="hsl(45,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+8 samples (0.1%)</title><rect x="149.3" y="418" width="1.3" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcTiny
+5 samples (0.1%)</title><rect x="149.3" y="436" width="0.6" height="17" fill="hsl(31,94%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.pipelineReadCmds
+22 samples (0.4%)</title><rect x="152.0" y="364" width="4.4" height="17" fill="hsl(48,93%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*IntCmd).readReply
+12 samples (0.2%)</title><rect x="152.0" y="382" width="2.2" height="17" fill="hsl(48,86%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/util.ParseInt
+9 samples (0.2%)</title><rect x="152.0" y="400" width="1.5" height="17" fill="hsl(45,92%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strconv.ParseInt
+7 samples (0.1%)</title><rect x="152.0" y="418" width="1.1" height="17" fill="hsl(57,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.ParseInt
+7 samples (0.1%)</title><rect x="152.0" y="436" width="1.1" height="17" fill="hsl(44,78%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*BoolCmd).readReply
+6 samples (0.1%)</title><rect x="154.7" y="382" width="0.8" height="17" fill="hsl(39,91%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).ReadBool
+4 samples (0.1%)</title><rect x="154.7" y="400" width="0.5" height="17" fill="hsl(51,81%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).SetReadDeadline
+10 samples (0.2%)</title><rect x="157.8" y="346" width="1.7" height="17" fill="hsl(21,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.setDeadlineImpl
+10 samples (0.2%)</title><rect x="157.8" y="364" width="1.7" height="17" fill="hsl(26,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollSetDeadline
+7 samples (0.1%)</title><rect x="157.8" y="382" width="1.1" height="17" fill="hsl(14,77%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*timer).modify
+4 samples (0.1%)</title><rect x="157.8" y="400" width="0.5" height="17" fill="hsl(39,75%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*Conn).deadline
+4 samples (0.1%)</title><rect x="160.0" y="346" width="0.5" height="17" fill="hsl(35,78%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).context
+3 samples (0.1%)</title><rect x="162.1" y="310" width="0.5" height="17" fill="hsl(58,89%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).getConn
+32 samples (0.6%)</title><rect x="163.0" y="292" width="6.7" height="17" fill="hsl(56,89%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient)._getConn
+32 samples (0.6%)</title><rect x="163.0" y="310" width="6.7" height="17" fill="hsl(13,93%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).Get
+29 samples (0.5%)</title><rect x="163.0" y="328" width="6.0" height="17" fill="hsl(49,80%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).waitTurn
+21 samples (0.4%)</title><rect x="163.0" y="346" width="4.2" height="17" fill="hsl(23,89%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.selectnbsend
+11 samples (0.2%)</title><rect x="163.0" y="364" width="2.0" height="17" fill="hsl(47,90%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+8 samples (0.1%)</title><rect x="163.0" y="382" width="1.3" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+8 samples (0.1%)</title><rect x="163.0" y="400" width="1.3" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+8 samples (0.1%)</title><rect x="163.0" y="418" width="1.3" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.(*cancelCtx).Done
+6 samples (0.1%)</title><rect x="165.4" y="364" width="0.8" height="17" fill="hsl(33,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).withConn.func1
+21 samples (0.4%)</title><rect x="170.1" y="292" width="4.2" height="17" fill="hsl(48,90%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).releaseConn
+21 samples (0.4%)</title><rect x="170.1" y="310" width="4.2" height="17" fill="hsl(29,77%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).freeTurn
+14 samples (0.3%)</title><rect x="170.1" y="328" width="2.6" height="17" fill="hsl(33,82%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.chanrecv1
+14 samples (0.3%)</title><rect x="170.1" y="346" width="2.6" height="17" fill="hsl(13,89%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+13 samples (0.2%)</title><rect x="170.1" y="364" width="2.4" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+13 samples (0.2%)</title><rect x="170.1" y="382" width="2.4" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+13 samples (0.2%)</title><rect x="170.1" y="400" width="2.4" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.wrapMultiExec
+9 samples (0.2%)</title><rect x="177.6" y="220" width="1.5" height="17" fill="hsl(33,85%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.makeslice
+5 samples (0.1%)</title><rect x="177.6" y="238" width="0.6" height="17" fill="hsl(49,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="177.6" y="256" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.Sprint
+14 samples (0.3%)</title><rect x="180.2" y="184" width="2.6" height="17" fill="hsl(38,85%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.newPrinter
+7 samples (0.1%)</title><rect x="180.2" y="202" width="1.1" height="17" fill="hsl(49,87%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Get
+5 samples (0.1%)</title><rect x="180.2" y="220" width="0.6" height="17" fill="hsl(50,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*pp).doPrint
+5 samples (0.1%)</title><rect x="181.8" y="202" width="0.6" height="17" fill="hsl(46,86%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*pp).printArg
+5 samples (0.1%)</title><rect x="181.8" y="220" width="0.6" height="17" fill="hsl(23,89%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*pp).fmtInteger
+4 samples (0.1%)</title><rect x="181.8" y="238" width="0.5" height="17" fill="hsl(15,76%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*fmt).fmtInteger
+3 samples (0.1%)</title><rect x="181.8" y="256" width="0.5" height="17" fill="hsl(33,87%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/feature.(*RedisStore).AmountSum
+736 samples (13.8%)</title><rect x="184.1" y="166" width="164.7" height="17" fill="hsl(20,78%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="179" fill="#111" clip-path="none">feature.(*RedisStore).Amo…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*Pipeline).Exec
+709 samples (13.3%)</title><rect x="184.1" y="184" width="158.6" height="17" fill="hsl(18,76%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="197" fill="#111" clip-path="none">v9.(*Pipeline).Exec</text></g>
+<g><title>internal/feature.(*RedisStore).AmountSum.(*Client).TxPipeline.func1
+706 samples (13.2%)</title><rect x="184.1" y="202" width="158.0" height="17" fill="hsl(26,78%,46%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="215" fill="#111" clip-path="none">feature.(*RedisStore).Am…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*hooksMixin).processTxPipelineHook
+695 samples (13.0%)</title><rect x="184.1" y="220" width="155.5" height="17" fill="hsl(16,93%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="233" fill="#111" clip-path="none">v9.(*hooksMixin).process…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).processTxPipeline
+689 samples (12.9%)</title><rect x="184.1" y="238" width="154.2" height="17" fill="hsl(31,83%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="251" fill="#111" clip-path="none">v9.(*baseClient).proces…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).generalProcessPipeline
+689 samples (12.9%)</title><rect x="184.1" y="256" width="154.2" height="17" fill="hsl(35,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="269" fill="#111" clip-path="none">v9.(*baseClient).genera…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).withConn
+687 samples (12.9%)</title><rect x="184.1" y="274" width="153.7" height="17" fill="hsl(10,75%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="287" fill="#111" clip-path="none">v9.(*baseClient).withCo…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).generalProcessPipeline.func1
+629 samples (11.8%)</title><rect x="184.1" y="292" width="140.7" height="17" fill="hsl(38,93%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="305" fill="#111" clip-path="none">v9.(*baseClient).gene…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).txPipelineProcessCmds
+623 samples (11.7%)</title><rect x="184.1" y="310" width="139.3" height="17" fill="hsl(24,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="323" fill="#111" clip-path="none">v9.(*baseClient).txPi…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*Conn).WithWriter
+446 samples (8.3%)</title><rect x="184.1" y="328" width="99.6" height="17" fill="hsl(37,94%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="341" fill="#111" clip-path="none">pool.(*Conn).Wi…</text></g>
+<g><title>bufio.(*Writer).Flush
+395 samples (7.4%)</title><rect x="184.1" y="346" width="88.2" height="17" fill="hsl(38,82%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="359" fill="#111" clip-path="none">bufio.(*Write…</text></g>
+<g><title>net.(*conn).Write
+395 samples (7.4%)</title><rect x="184.1" y="364" width="88.2" height="17" fill="hsl(57,93%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="377" fill="#111" clip-path="none">net.(*conn).W…</text></g>
+<g><title>net.(*netFD).Write
+394 samples (7.4%)</title><rect x="184.1" y="382" width="87.9" height="17" fill="hsl(13,83%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="395" fill="#111" clip-path="none">net.(*netFD).…</text></g>
+<g><title>internal/poll.(*FD).Write
+391 samples (7.3%)</title><rect x="184.1" y="400" width="87.3" height="17" fill="hsl(41,81%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="413" fill="#111" clip-path="none">poll.(*FD).Wr…</text></g>
+<g><title>internal/poll.(*FD).execIO
+385 samples (7.2%)</title><rect x="184.1" y="418" width="85.9" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="431" fill="#111" clip-path="none">poll.(*FD).e…</text></g>
+<g><title>internal/poll.(*FD).Write.func2
+375 samples (7.0%)</title><rect x="184.1" y="436" width="83.7" height="17" fill="hsl(19,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="449" fill="#111" clip-path="none">poll.(*FD).W…</text></g>
+<g><title>syscall.WSASend
+372 samples (7.0%)</title><rect x="184.1" y="454" width="83.0" height="17" fill="hsl(51,78%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="467" fill="#111" clip-path="none">syscall.WSAS…</text></g>
+<g><title>syscall.SyscallN
+370 samples (6.9%)</title><rect x="184.1" y="472" width="82.6" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="485" fill="#111" clip-path="none">syscall.Sysc…</text></g>
+<g><title>syscall.syscalln
+369 samples (6.9%)</title><rect x="184.1" y="490" width="82.3" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="503" fill="#111" clip-path="none">syscall.sysc…</text></g>
+<g><title>runtime.cgocall
+369 samples (6.9%)</title><rect x="184.1" y="508" width="82.3" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="186.1" y="521" fill="#111" clip-path="none">runtime.cgoc…</text></g>
+<g><title>runtime.(*Pinner).Unpin
+5 samples (0.1%)</title><rect x="268.2" y="436" width="0.6" height="17" fill="hsl(40,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*pinner).unpin
+5 samples (0.1%)</title><rect x="268.2" y="454" width="0.6" height="17" fill="hsl(17,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.setPinned
+3 samples (0.1%)</title><rect x="268.2" y="472" width="0.5" height="17" fill="hsl(45,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+4 samples (0.1%)</title><rect x="270.5" y="418" width="0.5" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+3 samples (0.1%)</title><rect x="270.5" y="436" width="0.5" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.writeCmds
+36 samples (0.7%)</title><rect x="272.7" y="346" width="7.6" height="17" fill="hsl(19,87%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.writeCmd
+35 samples (0.7%)</title><rect x="272.7" y="364" width="7.4" height="17" fill="hsl(27,81%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).WriteArgs
+31 samples (0.6%)</title><rect x="272.7" y="382" width="6.5" height="17" fill="hsl(51,84%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).WriteArg
+20 samples (0.4%)</title><rect x="272.7" y="400" width="4.0" height="17" fill="hsl(30,80%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.AppendFloat
+15 samples (0.3%)</title><rect x="272.7" y="418" width="2.9" height="17" fill="hsl(37,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.genericFtoa
+15 samples (0.3%)</title><rect x="272.7" y="436" width="2.9" height="17" fill="hsl(16,92%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.dboxFtoa
+5 samples (0.1%)</title><rect x="272.7" y="454" width="0.6" height="17" fill="hsl(50,83%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.dboxFtoa64
+4 samples (0.1%)</title><rect x="272.7" y="472" width="0.5" height="17" fill="hsl(56,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).string
+8 samples (0.1%)</title><rect x="277.2" y="400" width="1.3" height="17" fill="hsl(39,82%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).bytes
+8 samples (0.1%)</title><rect x="277.2" y="418" width="1.3" height="17" fill="hsl(22,89%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Writer).crlf
+4 samples (0.1%)</title><rect x="277.2" y="436" width="0.5" height="17" fill="hsl(59,81%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bufio.(*Writer).WriteByte
+3 samples (0.1%)</title><rect x="277.2" y="454" width="0.5" height="17" fill="hsl(52,87%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).SetWriteDeadline
+11 samples (0.2%)</title><rect x="280.8" y="346" width="2.0" height="17" fill="hsl(27,84%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.setDeadlineImpl
+11 samples (0.2%)</title><rect x="280.8" y="364" width="2.0" height="17" fill="hsl(26,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollSetDeadline
+10 samples (0.2%)</title><rect x="280.8" y="382" width="1.7" height="17" fill="hsl(14,77%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*timer).modify
+8 samples (0.1%)</title><rect x="280.8" y="400" width="1.3" height="17" fill="hsl(39,75%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*Conn).WithReader
+176 samples (3.3%)</title><rect x="284.2" y="328" width="39.0" height="17" fill="hsl(22,78%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="341" fill="#111" clip-path="none">pool.…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).txPipelineProcessCmds.func2
+163 samples (3.0%)</title><rect x="284.2" y="346" width="36.1" height="17" fill="hsl(51,82%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="359" fill="#111" clip-path="none">v9.(…</text></g>
+<g><title>github.com/redis/go-redis/v9.(*StatusCmd).readReply
+132 samples (2.5%)</title><rect x="284.2" y="364" width="29.1" height="17" fill="hsl(11,80%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="377" fill="#111" clip-path="none">v9.…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).ReadString
+131 samples (2.5%)</title><rect x="284.2" y="382" width="28.9" height="17" fill="hsl(28,79%,46%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="395" fill="#111" clip-path="none">pro…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).ReadLine
+128 samples (2.4%)</title><rect x="284.2" y="400" width="28.2" height="17" fill="hsl(38,86%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="413" fill="#111" clip-path="none">pro…</text></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).readLine
+126 samples (2.4%)</title><rect x="284.2" y="418" width="27.8" height="17" fill="hsl(44,94%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="431" fill="#111" clip-path="none">pro…</text></g>
+<g><title>bufio.(*Reader).ReadSlice
+124 samples (2.3%)</title><rect x="284.2" y="436" width="27.3" height="17" fill="hsl(21,75%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="449" fill="#111" clip-path="none">buf…</text></g>
+<g><title>bufio.(*Reader).fill
+122 samples (2.3%)</title><rect x="284.2" y="454" width="26.9" height="17" fill="hsl(19,87%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="467" fill="#111" clip-path="none">buf…</text></g>
+<g><title>net.(*conn).Read
+115 samples (2.2%)</title><rect x="284.2" y="472" width="25.3" height="17" fill="hsl(25,83%,55%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="485" fill="#111" clip-path="none">net…</text></g>
+<g><title>net.(*netFD).Read
+114 samples (2.1%)</title><rect x="284.2" y="490" width="25.1" height="17" fill="hsl(26,84%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="503" fill="#111" clip-path="none">net…</text></g>
+<g><title>internal/poll.(*FD).Read
+113 samples (2.1%)</title><rect x="284.2" y="508" width="24.9" height="17" fill="hsl(44,86%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="521" fill="#111" clip-path="none">pol…</text></g>
+<g><title>internal/poll.(*FD).execIO
+105 samples (2.0%)</title><rect x="284.2" y="526" width="23.1" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="539" fill="#111" clip-path="none">po…</text></g>
+<g><title>internal/poll.(*FD).Read.func2
+67 samples (1.3%)</title><rect x="284.2" y="544" width="14.5" height="17" fill="hsl(58,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="557" fill="#111" clip-path="none">p…</text></g>
+<g><title>syscall.WSARecv
+63 samples (1.2%)</title><rect x="284.2" y="562" width="13.6" height="17" fill="hsl(29,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="575" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.SyscallN
+62 samples (1.2%)</title><rect x="284.2" y="580" width="13.4" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="593" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.syscalln
+62 samples (1.2%)</title><rect x="284.2" y="598" width="13.4" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="611" fill="#111" clip-path="none">s…</text></g>
+<g><title>runtime.cgocall
+62 samples (1.2%)</title><rect x="284.2" y="616" width="13.4" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="286.2" y="629" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.(*Pinner).Unpin
+14 samples (0.3%)</title><rect x="299.2" y="544" width="2.6" height="17" fill="hsl(40,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*pinner).unpin
+12 samples (0.2%)</title><rect x="299.2" y="562" width="2.2" height="17" fill="hsl(17,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.setPinned
+5 samples (0.1%)</title><rect x="299.2" y="580" width="0.6" height="17" fill="hsl(45,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mspan).base
+3 samples (0.1%)</title><rect x="299.2" y="598" width="0.5" height="17" fill="hsl(29,93%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+4 samples (0.1%)</title><rect x="300.3" y="580" width="0.5" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+4 samples (0.1%)</title><rect x="300.3" y="598" width="0.5" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+3 samples (0.1%)</title><rect x="300.3" y="616" width="0.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/syscall/windows.WSAGetOverlappedResult
+14 samples (0.3%)</title><rect x="302.4" y="544" width="2.6" height="17" fill="hsl(22,94%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.SyscallN
+14 samples (0.3%)</title><rect x="302.4" y="562" width="2.6" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+14 samples (0.3%)</title><rect x="302.4" y="580" width="2.6" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+14 samples (0.3%)</title><rect x="302.4" y="598" width="2.6" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).waitIO
+4 samples (0.1%)</title><rect x="305.5" y="544" width="0.5" height="17" fill="hsl(31,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*pollDesc).wait
+4 samples (0.1%)</title><rect x="305.5" y="562" width="0.5" height="17" fill="hsl(59,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+5 samples (0.1%)</title><rect x="307.7" y="526" width="0.6" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+3 samples (0.1%)</title><rect x="307.7" y="544" width="0.5" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.slicebytetostring
+3 samples (0.1%)</title><rect x="312.9" y="400" width="0.5" height="17" fill="hsl(45,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="312.9" y="418" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.pipelineReadCmds
+27 samples (0.5%)</title><rect x="313.8" y="364" width="5.6" height="17" fill="hsl(48,93%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*FloatCmd).readReply
+16 samples (0.3%)</title><rect x="313.8" y="382" width="3.1" height="17" fill="hsl(28,81%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).ReadFloat
+15 samples (0.3%)</title><rect x="313.8" y="400" width="2.9" height="17" fill="hsl(13,93%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strconv.ParseFloat
+6 samples (0.1%)</title><rect x="313.8" y="418" width="0.8" height="17" fill="hsl(23,79%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.ParseFloat
+6 samples (0.1%)</title><rect x="313.8" y="436" width="0.8" height="17" fill="hsl(19,86%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.parseFloatPrefix
+6 samples (0.1%)</title><rect x="313.8" y="454" width="0.8" height="17" fill="hsl(32,94%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.atof64
+6 samples (0.1%)</title><rect x="313.8" y="472" width="0.8" height="17" fill="hsl(12,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.readFloat
+4 samples (0.1%)</title><rect x="313.8" y="490" width="0.5" height="17" fill="hsl(41,78%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).readStringReply
+4 samples (0.1%)</title><rect x="315.2" y="418" width="0.5" height="17" fill="hsl(58,90%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.ReadFull
+3 samples (0.1%)</title><rect x="316.0" y="418" width="0.5" height="17" fill="hsl(29,91%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.ReadAtLeast
+3 samples (0.1%)</title><rect x="316.0" y="436" width="0.5" height="17" fill="hsl(51,75%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.txPipelineReadQueued
+3 samples (0.1%)</title><rect x="319.9" y="364" width="0.5" height="17" fill="hsl(35,92%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/proto.(*Reader).ReadLine
+3 samples (0.1%)</title><rect x="319.9" y="382" width="0.5" height="17" fill="hsl(38,86%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).SetReadDeadline
+8 samples (0.1%)</title><rect x="320.8" y="346" width="1.3" height="17" fill="hsl(21,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.setDeadlineImpl
+8 samples (0.1%)</title><rect x="320.8" y="364" width="1.3" height="17" fill="hsl(26,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollSetDeadline
+7 samples (0.1%)</title><rect x="320.8" y="382" width="1.1" height="17" fill="hsl(14,77%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*Conn).deadline
+3 samples (0.1%)</title><rect x="322.6" y="346" width="0.5" height="17" fill="hsl(35,78%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Now
+3 samples (0.1%)</title><rect x="322.6" y="364" width="0.5" height="17" fill="hsl(23,80%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).getConn
+30 samples (0.6%)</title><rect x="325.3" y="292" width="6.2" height="17" fill="hsl(56,89%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient)._getConn
+27 samples (0.5%)</title><rect x="325.3" y="310" width="5.6" height="17" fill="hsl(13,93%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).Get
+26 samples (0.5%)</title><rect x="325.3" y="328" width="5.3" height="17" fill="hsl(49,80%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).waitTurn
+15 samples (0.3%)</title><rect x="325.3" y="346" width="2.9" height="17" fill="hsl(23,89%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.selectnbrecv
+5 samples (0.1%)</title><rect x="325.3" y="364" width="0.6" height="17" fill="hsl(47,84%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.chanrecv
+5 samples (0.1%)</title><rect x="325.3" y="382" width="0.6" height="17" fill="hsl(15,75%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.selectnbsend
+5 samples (0.1%)</title><rect x="326.4" y="364" width="0.6" height="17" fill="hsl(47,90%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+4 samples (0.1%)</title><rect x="326.4" y="382" width="0.5" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+4 samples (0.1%)</title><rect x="326.4" y="400" width="0.5" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+4 samples (0.1%)</title><rect x="326.4" y="418" width="0.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).isHealthyConn
+7 samples (0.1%)</title><rect x="328.6" y="346" width="1.1" height="17" fill="hsl(47,79%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Time.Sub
+6 samples (0.1%)</title><rect x="328.6" y="364" width="0.8" height="17" fill="hsl(21,75%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Time.Add
+4 samples (0.1%)</title><rect x="328.6" y="382" width="0.5" height="17" fill="hsl(51,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).popIdle
+3 samples (0.1%)</title><rect x="330.2" y="346" width="0.5" height="17" fill="hsl(47,75%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).withConn.func1
+25 samples (0.5%)</title><rect x="332.0" y="292" width="5.1" height="17" fill="hsl(48,90%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*baseClient).releaseConn
+25 samples (0.5%)</title><rect x="332.0" y="310" width="5.1" height="17" fill="hsl(29,77%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).freeTurn
+18 samples (0.3%)</title><rect x="332.0" y="328" width="3.5" height="17" fill="hsl(33,82%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.chanrecv1
+18 samples (0.3%)</title><rect x="332.0" y="346" width="3.5" height="17" fill="hsl(13,89%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+15 samples (0.3%)</title><rect x="332.0" y="364" width="2.9" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+15 samples (0.3%)</title><rect x="332.0" y="382" width="2.9" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+15 samples (0.3%)</title><rect x="332.0" y="400" width="2.9" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9/internal/pool.(*ConnPool).Put
+3 samples (0.1%)</title><rect x="336.0" y="328" width="0.5" height="17" fill="hsl(29,84%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdsFirstErr
+6 samples (0.1%)</title><rect x="338.7" y="238" width="0.8" height="17" fill="hsl(37,86%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.NewStatusCmd
+6 samples (0.1%)</title><rect x="340.1" y="220" width="0.8" height="17" fill="hsl(40,77%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+6 samples (0.1%)</title><rect x="340.1" y="238" width="0.8" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+6 samples (0.1%)</title><rect x="340.1" y="256" width="0.8" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.wrapMultiExec
+3 samples (0.1%)</title><rect x="341.4" y="220" width="0.5" height="17" fill="hsl(33,85%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+3 samples (0.1%)</title><rect x="341.4" y="238" width="0.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="341.4" y="256" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.Sprintf
+20 samples (0.4%)</title><rect x="343.2" y="184" width="4.0" height="17" fill="hsl(28,92%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*pp).doPrintf
+17 samples (0.3%)</title><rect x="343.2" y="202" width="3.3" height="17" fill="hsl(38,88%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*pp).printArg
+14 samples (0.3%)</title><rect x="343.2" y="220" width="2.6" height="17" fill="hsl(23,89%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*pp).fmtString
+8 samples (0.1%)</title><rect x="343.2" y="238" width="1.3" height="17" fill="hsl(50,80%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*fmt).fmtS
+6 samples (0.1%)</title><rect x="343.2" y="256" width="0.8" height="17" fill="hsl(37,90%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*buffer).writeString
+3 samples (0.1%)</title><rect x="343.2" y="274" width="0.5" height="17" fill="hsl(34,78%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>fmt.(*pp).fmtInteger
+3 samples (0.1%)</title><rect x="345.0" y="238" width="0.5" height="17" fill="hsl(15,76%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.convTstring
+5 samples (0.1%)</title><rect x="347.7" y="184" width="0.6" height="17" fill="hsl(51,84%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+4 samples (0.1%)</title><rect x="347.7" y="202" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/event.(*KafkaPublisher).Publish
+193 samples (3.6%)</title><rect x="349.3" y="166" width="42.8" height="17" fill="hsl(11,84%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="351.3" y="179" fill="#111" clip-path="none">event…</text></g>
+<g><title>encoding/json.Marshal
+94 samples (1.8%)</title><rect x="349.3" y="184" width="20.6" height="17" fill="hsl(59,93%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="351.3" y="197" fill="#111" clip-path="none">js…</text></g>
+<g><title>encoding/json.(*encodeState).marshal
+81 samples (1.5%)</title><rect x="349.3" y="202" width="17.7" height="17" fill="hsl(49,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="351.3" y="215" fill="#111" clip-path="none">j…</text></g>
+<g><title>encoding/json.(*encodeState).reflectValue
+80 samples (1.5%)</title><rect x="349.3" y="220" width="17.5" height="17" fill="hsl(27,91%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="351.3" y="233" fill="#111" clip-path="none">j…</text></g>
+<g><title>encoding/json.structEncoder.encode
+71 samples (1.3%)</title><rect x="349.3" y="238" width="15.4" height="17" fill="hsl(25,80%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="351.3" y="251" fill="#111" clip-path="none">j…</text></g>
+<g><title>encoding/json.condAddrEncoder.encode
+29 samples (0.5%)</title><rect x="349.3" y="256" width="6.0" height="17" fill="hsl(11,84%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.marshalerEncoder
+27 samples (0.5%)</title><rect x="349.3" y="274" width="5.6" height="17" fill="hsl(26,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.appendCompact
+12 samples (0.2%)</title><rect x="349.3" y="292" width="2.2" height="17" fill="hsl(34,90%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.newScanner
+3 samples (0.1%)</title><rect x="349.3" y="310" width="0.5" height="17" fill="hsl(22,92%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Get
+3 samples (0.1%)</title><rect x="349.3" y="328" width="0.5" height="17" fill="hsl(50,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Time.MarshalJSON
+8 samples (0.1%)</title><rect x="352.0" y="292" width="1.3" height="17" fill="hsl(15,94%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.makeslice
+5 samples (0.1%)</title><rect x="352.0" y="310" width="0.6" height="17" fill="hsl(49,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="352.0" y="328" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Time.appendStrictRFC3339
+3 samples (0.1%)</title><rect x="353.1" y="310" width="0.5" height="17" fill="hsl(37,83%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Time.appendFormatRFC3339
+3 samples (0.1%)</title><rect x="353.1" y="328" width="0.5" height="17" fill="hsl(10,78%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.AppendFloat
+9 samples (0.2%)</title><rect x="355.8" y="256" width="1.5" height="17" fill="hsl(37,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.genericFtoa
+9 samples (0.2%)</title><rect x="355.8" y="274" width="1.5" height="17" fill="hsl(16,92%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.dboxFtoa
+6 samples (0.1%)</title><rect x="355.8" y="292" width="0.8" height="17" fill="hsl(50,83%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.dboxFtoa64
+4 samples (0.1%)</title><rect x="355.8" y="310" width="0.5" height="17" fill="hsl(56,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.stringEncoder
+8 samples (0.1%)</title><rect x="357.8" y="256" width="1.3" height="17" fill="hsl(59,87%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.appendString[go.shape.string]
+7 samples (0.1%)</title><rect x="357.8" y="274" width="1.1" height="17" fill="hsl(17,81%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.sliceEncoder.encode
+7 samples (0.1%)</title><rect x="359.6" y="256" width="1.1" height="17" fill="hsl(20,91%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.arrayEncoder.encode
+7 samples (0.1%)</title><rect x="359.6" y="274" width="1.1" height="17" fill="hsl(34,88%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.stringEncoder
+4 samples (0.1%)</title><rect x="359.6" y="292" width="0.5" height="17" fill="hsl(59,87%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>reflect.Value.Field
+3 samples (0.1%)</title><rect x="361.2" y="256" width="0.5" height="17" fill="hsl(54,75%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bytes.(*Buffer).WriteByte
+3 samples (0.1%)</title><rect x="361.8" y="256" width="0.5" height="17" fill="hsl(38,83%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.valueEncoder
+6 samples (0.1%)</title><rect x="365.2" y="238" width="0.8" height="17" fill="hsl(28,83%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Map).Load
+6 samples (0.1%)</title><rect x="365.2" y="256" width="0.8" height="17" fill="hsl(50,75%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/sync.(*HashTrieMap[go.shape.interface
+5 samples (0.1%)</title><rect x="365.2" y="274" width="0.6" height="17" fill="hsl(41,81%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.nilinterhash
+3 samples (0.1%)</title><rect x="365.2" y="292" width="0.5" height="17" fill="hsl(38,80%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.newEncodeState
+5 samples (0.1%)</title><rect x="367.5" y="202" width="0.6" height="17" fill="hsl(13,82%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Get
+3 samples (0.1%)</title><rect x="367.5" y="220" width="0.5" height="17" fill="hsl(50,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.growslice
+5 samples (0.1%)</title><rect x="368.6" y="202" width="0.6" height="17" fill="hsl(47,90%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="368.6" y="220" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallNoscan
+4 samples (0.1%)</title><rect x="368.6" y="238" width="0.5" height="17" fill="hsl(12,86%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mcache).nextFree
+4 samples (0.1%)</title><rect x="368.6" y="256" width="0.5" height="17" fill="hsl(17,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mcache).refill
+4 samples (0.1%)</title><rect x="368.6" y="274" width="0.5" height="17" fill="hsl(44,79%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mcentral).cacheSpan
+4 samples (0.1%)</title><rect x="368.6" y="292" width="0.5" height="17" fill="hsl(59,93%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Writer).WriteMessages
+91 samples (1.7%)</title><rect x="370.4" y="184" width="19.9" height="17" fill="hsl(55,87%,55%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="372.4" y="197" fill="#111" clip-path="none">ka…</text></g>
+<g><title>github.com/segmentio/kafka-go.(*Writer).partitions
+52 samples (1.0%)</title><rect x="370.4" y="202" width="11.2" height="17" fill="hsl(33,78%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Transport).RoundTrip
+48 samples (0.9%)</title><rect x="370.4" y="220" width="10.3" height="17" fill="hsl(31,93%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*connPool).roundTrip
+39 samples (0.7%)</title><rect x="370.4" y="238" width="8.3" height="17" fill="hsl(44,81%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.selectgo
+20 samples (0.4%)</title><rect x="370.4" y="256" width="4.0" height="17" fill="hsl(13,83%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+14 samples (0.3%)</title><rect x="370.4" y="274" width="2.6" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+14 samples (0.3%)</title><rect x="370.4" y="292" width="2.6" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+12 samples (0.2%)</title><rect x="370.4" y="310" width="2.2" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.filterMetadataResponse
+11 samples (0.2%)</title><rect x="374.9" y="256" width="2.0" height="17" fill="hsl(47,94%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.(*cancelCtx).Done
+5 samples (0.1%)</title><rect x="377.3" y="256" width="0.6" height="17" fill="hsl(33,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Transport).grabPool
+6 samples (0.1%)</title><rect x="379.1" y="238" width="0.8" height="17" fill="hsl(11,91%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapaccess1
+5 samples (0.1%)</title><rect x="379.1" y="256" width="0.6" height="17" fill="hsl(14,86%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).getWithKeySmall
+3 samples (0.1%)</title><rect x="379.1" y="274" width="0.5" height="17" fill="hsl(33,83%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Writer).batchMessages
+13 samples (0.2%)</title><rect x="382.0" y="202" width="2.4" height="17" fill="hsl(12,85%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*partitionWriter).writeMessages
+4 samples (0.1%)</title><rect x="382.0" y="220" width="0.5" height="17" fill="hsl(59,76%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapIterNext
+3 samples (0.1%)</title><rect x="382.9" y="220" width="0.5" height="17" fill="hsl(27,94%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Iter).Next
+3 samples (0.1%)</title><rect x="382.9" y="238" width="0.5" height="17" fill="hsl(16,91%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapassign
+6 samples (0.1%)</title><rect x="385.0" y="202" width="0.8" height="17" fill="hsl(51,87%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).putSlotSmall
+3 samples (0.1%)</title><rect x="385.0" y="220" width="0.5" height="17" fill="hsl(12,84%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Hash).Balance
+5 samples (0.1%)</title><rect x="386.3" y="202" width="0.6" height="17" fill="hsl(55,88%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Writer).enter
+5 samples (0.1%)</title><rect x="387.4" y="202" width="0.6" height="17" fill="hsl(17,75%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*WaitGroup).Add
+3 samples (0.1%)</title><rect x="387.4" y="220" width="0.5" height="17" fill="hsl(41,77%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/synctest.IsInBubble
+3 samples (0.1%)</title><rect x="387.4" y="238" width="0.5" height="17" fill="hsl(12,94%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/sync.(*Mutex).Lock
+4 samples (0.1%)</title><rect x="388.6" y="202" width="0.5" height="17" fill="hsl(57,88%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/sync.(*Mutex).lockSlow
+3 samples (0.1%)</title><rect x="388.6" y="220" width="0.5" height="17" fill="hsl(39,75%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.stringtoslicebyte
+3 samples (0.1%)</title><rect x="390.8" y="184" width="0.5" height="17" fill="hsl(51,77%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.rawbyteslice
+3 samples (0.1%)</title><rect x="390.8" y="202" width="0.5" height="17" fill="hsl(29,81%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/rules.ScoreTransaction
+21 samples (0.4%)</title><rect x="392.6" y="166" width="4.2" height="17" fill="hsl(54,83%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.growslice
+11 samples (0.2%)</title><rect x="392.6" y="184" width="2.0" height="17" fill="hsl(47,90%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+10 samples (0.2%)</title><rect x="392.6" y="202" width="1.7" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.nextFreeFast
+5 samples (0.1%)</title><rect x="392.6" y="220" width="0.6" height="17" fill="hsl(19,91%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.heapSetTypeNoHeader
+3 samples (0.1%)</title><rect x="393.7" y="220" width="0.5" height="17" fill="hsl(19,83%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mspan).writeHeapBitsSmall
+3 samples (0.1%)</title><rect x="393.7" y="238" width="0.5" height="17" fill="hsl(22,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/rules.UnusualCurrencyRule.Evaluate
+8 samples (0.1%)</title><rect x="395.1" y="184" width="1.3" height="17" fill="hsl(31,77%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapaccess1_faststr
+8 samples (0.1%)</title><rect x="395.1" y="202" width="1.3" height="17" fill="hsl(52,81%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).getWithoutKeySmallFastStr
+8 samples (0.1%)</title><rect x="395.1" y="220" width="1.3" height="17" fill="hsl(19,78%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>aeshashbody
+5 samples (0.1%)</title><rect x="395.1" y="238" width="0.6" height="17" fill="hsl(39,75%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.ZAdd
+19 samples (0.4%)</title><rect x="397.3" y="166" width="3.8" height="17" fill="hsl(45,90%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.ZAddArgs
+17 samples (0.3%)</title><rect x="397.3" y="184" width="3.3" height="17" fill="hsl(46,89%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.zAddArgs
+11 samples (0.2%)</title><rect x="397.3" y="202" width="2.0" height="17" fill="hsl(56,90%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.makeslice
+7 samples (0.1%)</title><rect x="397.3" y="220" width="1.1" height="17" fill="hsl(49,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+7 samples (0.1%)</title><rect x="397.3" y="238" width="1.1" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.heapSetTypeNoHeader
+3 samples (0.1%)</title><rect x="397.3" y="256" width="0.5" height="17" fill="hsl(19,83%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mspan).writeHeapBitsSmall
+3 samples (0.1%)</title><rect x="397.3" y="274" width="0.5" height="17" fill="hsl(22,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*Pipeline).Process
+3 samples (0.1%)</title><rect x="399.8" y="202" width="0.5" height="17" fill="hsl(49,86%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.growslice
+3 samples (0.1%)</title><rect x="399.8" y="220" width="0.5" height="17" fill="hsl(47,90%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="399.8" y="238" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.Expire
+18 samples (0.3%)</title><rect x="401.6" y="166" width="3.5" height="17" fill="hsl(31,82%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.expire
+15 samples (0.3%)</title><rect x="401.6" y="184" width="2.9" height="17" fill="hsl(10,80%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.makeslice
+6 samples (0.1%)</title><rect x="401.6" y="202" width="0.8" height="17" fill="hsl(49,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="401.6" y="220" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*Pipeline).Process
+5 samples (0.1%)</title><rect x="402.9" y="202" width="0.6" height="17" fill="hsl(49,86%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.NewBoolCmd
+3 samples (0.1%)</title><rect x="404.9" y="184" width="0.5" height="17" fill="hsl(41,93%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+3 samples (0.1%)</title><rect x="404.9" y="202" width="0.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="404.9" y="220" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallScanNoHeader
+3 samples (0.1%)</title><rect x="404.9" y="238" width="0.5" height="17" fill="hsl(41,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.ZRemRangeByScore
+11 samples (0.2%)</title><rect x="405.6" y="166" width="2.0" height="17" fill="hsl(55,89%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*Pipeline).Process
+5 samples (0.1%)</title><rect x="405.6" y="184" width="0.6" height="17" fill="hsl(49,86%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.growslice
+4 samples (0.1%)</title><rect x="405.6" y="202" width="0.5" height="17" fill="hsl(47,90%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="405.6" y="220" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.convTstring
+4 samples (0.1%)</title><rect x="406.7" y="184" width="0.5" height="17" fill="hsl(51,84%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.convTstring
+8 samples (0.1%)</title><rect x="408.1" y="166" width="1.3" height="17" fill="hsl(51,84%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+8 samples (0.1%)</title><rect x="408.1" y="184" width="1.3" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallScanNoHeader
+6 samples (0.1%)</title><rect x="408.1" y="202" width="0.8" height="17" fill="hsl(41,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*Client).TxPipeline
+8 samples (0.1%)</title><rect x="409.9" y="166" width="1.3" height="17" fill="hsl(15,87%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+8 samples (0.1%)</title><rect x="409.9" y="184" width="1.3" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+6 samples (0.1%)</title><rect x="409.9" y="202" width="0.8" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.nextFreeFast
+3 samples (0.1%)</title><rect x="409.9" y="220" width="0.5" height="17" fill="hsl(19,91%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.ZCard
+8 samples (0.1%)</title><rect x="411.7" y="166" width="1.3" height="17" fill="hsl(20,86%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.convTstring
+4 samples (0.1%)</title><rect x="411.7" y="184" width="0.5" height="17" fill="hsl(51,84%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+4 samples (0.1%)</title><rect x="411.7" y="202" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallScanNoHeader
+3 samples (0.1%)</title><rect x="411.7" y="220" width="0.5" height="17" fill="hsl(41,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.NewFloatCmd
+7 samples (0.1%)</title><rect x="413.5" y="166" width="1.1" height="17" fill="hsl(40,89%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+7 samples (0.1%)</title><rect x="413.5" y="184" width="1.1" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+6 samples (0.1%)</title><rect x="413.5" y="202" width="0.8" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.(*Pipeline).init
+5 samples (0.1%)</title><rect x="415.0" y="166" width="0.6" height="17" fill="hsl(25,84%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+5 samples (0.1%)</title><rect x="415.0" y="184" width="0.6" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="415.0" y="202" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallScanNoHeader
+4 samples (0.1%)</title><rect x="415.0" y="220" width="0.5" height="17" fill="hsl(41,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/redis/go-redis/v9.cmdable.IncrByFloat
+4 samples (0.1%)</title><rect x="416.2" y="166" width="0.5" height="17" fill="hsl(11,89%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.convT64
+3 samples (0.1%)</title><rect x="417.1" y="166" width="0.5" height="17" fill="hsl(13,81%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="417.1" y="184" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*Decoder).Decode
+175 samples (3.3%)</title><rect x="420.2" y="148" width="38.8" height="17" fill="hsl(53,76%,55%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="422.2" y="161" fill="#111" clip-path="none">json.…</text></g>
+<g><title>encoding/json.(*decodeState).unmarshal
+94 samples (1.8%)</title><rect x="420.2" y="166" width="20.6" height="17" fill="hsl(15,81%,50%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="422.2" y="179" fill="#111" clip-path="none">js…</text></g>
+<g><title>encoding/json.(*decodeState).value
+92 samples (1.7%)</title><rect x="420.2" y="184" width="20.2" height="17" fill="hsl(10,79%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="422.2" y="197" fill="#111" clip-path="none">js…</text></g>
+<g><title>encoding/json.(*decodeState).object
+91 samples (1.7%)</title><rect x="420.2" y="202" width="19.9" height="17" fill="hsl(58,81%,48%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="422.2" y="215" fill="#111" clip-path="none">js…</text></g>
+<g><title>encoding/json.(*decodeState).value
+43 samples (0.8%)</title><rect x="420.2" y="220" width="9.2" height="17" fill="hsl(10,79%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*decodeState).literalStore
+41 samples (0.8%)</title><rect x="420.2" y="238" width="8.7" height="17" fill="hsl(18,80%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.indirect
+17 samples (0.3%)</title><rect x="420.2" y="256" width="3.3" height="17" fill="hsl(44,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>reflect.(*rtype).Name
+7 samples (0.1%)</title><rect x="420.2" y="274" width="1.1" height="17" fill="hsl(27,91%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>reflect.(*rtype).String
+4 samples (0.1%)</title><rect x="420.2" y="292" width="0.5" height="17" fill="hsl(15,83%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>reflect.ptrTo
+3 samples (0.1%)</title><rect x="421.8" y="274" width="0.5" height="17" fill="hsl(34,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.slicebytetostring
+9 samples (0.2%)</title><rect x="424.0" y="256" width="1.5" height="17" fill="hsl(45,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+4 samples (0.1%)</title><rect x="424.0" y="274" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strconv.ParseFloat
+7 samples (0.1%)</title><rect x="426.0" y="256" width="1.1" height="17" fill="hsl(23,79%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.ParseFloat
+7 samples (0.1%)</title><rect x="426.0" y="274" width="1.1" height="17" fill="hsl(19,86%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.parseFloatPrefix
+6 samples (0.1%)</title><rect x="426.0" y="292" width="0.8" height="17" fill="hsl(32,94%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.atof64
+6 samples (0.1%)</title><rect x="426.0" y="310" width="0.8" height="17" fill="hsl(12,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.readFloat
+4 samples (0.1%)</title><rect x="426.0" y="328" width="0.5" height="17" fill="hsl(41,78%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.unquoteBytes
+13 samples (0.2%)</title><rect x="429.9" y="220" width="2.4" height="17" fill="hsl(18,78%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.indirect
+10 samples (0.2%)</title><rect x="432.8" y="220" width="1.7" height="17" fill="hsl(44,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>reflect.Value.Elem
+4 samples (0.1%)</title><rect x="432.8" y="238" width="0.5" height="17" fill="hsl(28,84%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>reflect.(*rtype).NumMethod
+3 samples (0.1%)</title><rect x="433.7" y="238" width="0.5" height="17" fill="hsl(43,88%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*decodeState).scanWhile
+3 samples (0.1%)</title><rect x="435.0" y="220" width="0.5" height="17" fill="hsl(42,91%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*Decoder).readValue
+77 samples (1.4%)</title><rect x="441.3" y="166" width="16.8" height="17" fill="hsl(30,90%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="443.3" y="179" fill="#111" clip-path="none">j…</text></g>
+<g><title>encoding/json.(*Decoder).refill
+49 samples (0.9%)</title><rect x="441.3" y="184" width="10.5" height="17" fill="hsl(55,85%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*body).Read
+40 samples (0.7%)</title><rect x="441.3" y="202" width="8.5" height="17" fill="hsl(13,88%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*body).readLocked
+39 samples (0.7%)</title><rect x="441.3" y="220" width="8.3" height="17" fill="hsl(52,78%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*connReader).startBackgroundRead
+34 samples (0.6%)</title><rect x="441.3" y="238" width="7.1" height="17" fill="hsl(17,83%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newproc
+16 samples (0.3%)</title><rect x="441.3" y="256" width="3.1" height="17" fill="hsl(56,81%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.systemstack
+15 samples (0.3%)</title><rect x="441.3" y="274" width="2.9" height="17" fill="hsl(55,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newproc.func1
+15 samples (0.3%)</title><rect x="441.3" y="292" width="2.9" height="17" fill="hsl(58,79%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newproc1
+13 samples (0.2%)</title><rect x="441.3" y="310" width="2.4" height="17" fill="hsl(38,93%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.funcname
+3 samples (0.1%)</title><rect x="441.3" y="328" width="0.5" height="17" fill="hsl(36,85%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).SetReadDeadline
+12 samples (0.2%)</title><rect x="444.9" y="256" width="2.2" height="17" fill="hsl(21,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.setDeadlineImpl
+11 samples (0.2%)</title><rect x="444.9" y="274" width="2.0" height="17" fill="hsl(26,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+7 samples (0.1%)</title><rect x="444.9" y="292" width="1.1" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+7 samples (0.1%)</title><rect x="444.9" y="310" width="1.1" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newstack
+7 samples (0.1%)</title><rect x="444.9" y="328" width="1.1" height="17" fill="hsl(23,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.copystack
+6 samples (0.1%)</title><rect x="444.9" y="346" width="0.8" height="17" fill="hsl(57,85%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*unwinder).next
+4 samples (0.1%)</title><rect x="444.9" y="364" width="0.5" height="17" fill="hsl(11,90%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollSetDeadline
+3 samples (0.1%)</title><rect x="446.5" y="292" width="0.5" height="17" fill="hsl(14,77%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+3 samples (0.1%)</title><rect x="447.6" y="256" width="0.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.(*LimitedReader).Read
+3 samples (0.1%)</title><rect x="448.9" y="238" width="0.5" height="17" fill="hsl(14,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.makeslice
+8 samples (0.1%)</title><rect x="450.3" y="202" width="1.3" height="17" fill="hsl(49,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+8 samples (0.1%)</title><rect x="450.3" y="220" width="1.3" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallNoscan
+5 samples (0.1%)</title><rect x="450.3" y="238" width="0.6" height="17" fill="hsl(12,86%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.memclrNoHeapPointers
+3 samples (0.1%)</title><rect x="450.3" y="256" width="0.5" height="17" fill="hsl(37,90%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.nextFreeFast
+3 samples (0.1%)</title><rect x="451.4" y="238" width="0.5" height="17" fill="hsl(19,91%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.stateBeginValue
+8 samples (0.1%)</title><rect x="452.3" y="184" width="1.3" height="17" fill="hsl(53,76%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*scanner).pushParseState
+4 samples (0.1%)</title><rect x="452.3" y="202" width="0.5" height="17" fill="hsl(38,81%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.growslice
+3 samples (0.1%)</title><rect x="452.3" y="220" width="0.5" height="17" fill="hsl(47,90%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.stateInString
+6 samples (0.1%)</title><rect x="454.1" y="184" width="0.8" height="17" fill="hsl(24,80%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.stateEndValue
+3 samples (0.1%)</title><rect x="455.4" y="184" width="0.5" height="17" fill="hsl(36,90%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*Encoder).Encode
+50 samples (0.9%)</title><rect x="459.5" y="148" width="10.7" height="17" fill="hsl(12,86%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*response).Write
+25 samples (0.5%)</title><rect x="459.5" y="166" width="5.1" height="17" fill="hsl(36,78%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*response).write
+25 samples (0.5%)</title><rect x="459.5" y="184" width="5.1" height="17" fill="hsl(22,94%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.Header.Clone
+14 samples (0.3%)</title><rect x="459.5" y="202" width="2.6" height="17" fill="hsl(26,77%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapassign_faststr
+6 samples (0.1%)</title><rect x="459.5" y="220" width="0.8" height="17" fill="hsl(39,91%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.newGroups
+6 samples (0.1%)</title><rect x="459.5" y="238" width="0.8" height="17" fill="hsl(32,90%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.newarray
+6 samples (0.1%)</title><rect x="459.5" y="256" width="0.8" height="17" fill="hsl(20,84%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newarray
+6 samples (0.1%)</title><rect x="459.5" y="274" width="0.8" height="17" fill="hsl(36,77%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="459.5" y="292" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallScanNoHeader
+3 samples (0.1%)</title><rect x="459.5" y="310" width="0.5" height="17" fill="hsl(41,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mcache).nextFree
+3 samples (0.1%)</title><rect x="459.5" y="328" width="0.5" height="17" fill="hsl(17,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mcache).refill
+3 samples (0.1%)</title><rect x="459.5" y="346" width="0.5" height="17" fill="hsl(44,79%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*response).WriteHeader
+3 samples (0.1%)</title><rect x="462.6" y="202" width="0.5" height="17" fill="hsl(33,87%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*encodeState).marshal
+21 samples (0.4%)</title><rect x="465.1" y="166" width="4.2" height="17" fill="hsl(49,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.(*encodeState).reflectValue
+19 samples (0.4%)</title><rect x="465.1" y="184" width="3.8" height="17" fill="hsl(27,91%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.structEncoder.encode
+18 samples (0.3%)</title><rect x="465.1" y="202" width="3.5" height="17" fill="hsl(25,80%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.AppendFloat
+5 samples (0.1%)</title><rect x="465.1" y="220" width="0.6" height="17" fill="hsl(37,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.genericFtoa
+5 samples (0.1%)</title><rect x="465.1" y="238" width="0.6" height="17" fill="hsl(16,92%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>encoding/json.stringEncoder
+3 samples (0.1%)</title><rect x="466.2" y="220" width="0.5" height="17" fill="hsl(59,87%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*CounterVec).GetMetricWithLabelValues
+19 samples (0.4%)</title><rect x="470.7" y="148" width="3.8" height="17" fill="hsl(27,85%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*MetricVec).GetMetricWithLabelValues
+17 samples (0.3%)</title><rect x="470.7" y="166" width="3.3" height="17" fill="hsl(40,84%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*MetricVec).hashLabelValues
+8 samples (0.1%)</title><rect x="470.7" y="184" width="1.3" height="17" fill="hsl(32,88%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.validateLabelValues
+3 samples (0.1%)</title><rect x="470.7" y="202" width="0.5" height="17" fill="hsl(32,79%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*metricMap).getOrCreateMetricWithLabelValues
+5 samples (0.1%)</title><rect x="472.5" y="184" width="0.6" height="17" fill="hsl(38,77%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*metricMap).getMetricWithHashAndLabelValues
+4 samples (0.1%)</title><rect x="472.5" y="202" width="0.5" height="17" fill="hsl(53,82%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.convTstring
+4 samples (0.1%)</title><rect x="475.0" y="148" width="0.5" height="17" fill="hsl(51,84%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="475.0" y="166" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*HistogramVec).GetMetricWithLabelValues
+12 samples (0.2%)</title><rect x="479.9" y="130" width="2.2" height="17" fill="hsl(47,79%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*MetricVec).GetMetricWithLabelValues
+10 samples (0.2%)</title><rect x="479.9" y="148" width="1.7" height="17" fill="hsl(40,84%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*metricMap).getOrCreateMetricWithLabelValues
+7 samples (0.1%)</title><rect x="479.9" y="166" width="1.1" height="17" fill="hsl(38,77%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*metricMap).getMetricWithHashAndLabelValues
+7 samples (0.1%)</title><rect x="479.9" y="184" width="1.1" height="17" fill="hsl(53,82%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.matchLabelValues
+6 samples (0.1%)</title><rect x="479.9" y="202" width="0.8" height="17" fill="hsl(15,94%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.MIMEHeader.Set
+8 samples (0.1%)</title><rect x="482.6" y="130" width="1.3" height="17" fill="hsl(13,75%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapassign_faststr
+6 samples (0.1%)</title><rect x="482.6" y="148" width="0.8" height="17" fill="hsl(39,91%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.newGroups
+5 samples (0.1%)</title><rect x="482.6" y="166" width="0.6" height="17" fill="hsl(32,90%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.newarray
+5 samples (0.1%)</title><rect x="482.6" y="184" width="0.6" height="17" fill="hsl(20,84%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newarray
+5 samples (0.1%)</title><rect x="482.6" y="202" width="0.6" height="17" fill="hsl(36,77%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="482.6" y="220" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.Itoa
+6 samples (0.1%)</title><rect x="484.4" y="130" width="0.8" height="17" fill="hsl(25,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/strconv.FormatInt
+6 samples (0.1%)</title><rect x="484.4" y="148" width="0.8" height="17" fill="hsl(12,85%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.slicebytetostring
+3 samples (0.1%)</title><rect x="484.4" y="166" width="0.5" height="17" fill="hsl(45,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*histogram).Observe
+6 samples (0.1%)</title><rect x="485.7" y="130" width="0.8" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/prometheus/client_golang/prometheus.(*histogram).findBucket
+3 samples (0.1%)</title><rect x="485.7" y="148" width="0.5" height="17" fill="hsl(56,82%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*ServeMux).findHandler
+23 samples (0.4%)</title><rect x="489.6" y="94" width="4.7" height="17" fill="hsl(19,77%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*ServeMux).matchOrRedirect
+11 samples (0.2%)</title><rect x="489.6" y="112" width="2.0" height="17" fill="hsl(47,75%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*routingNode).match
+8 samples (0.1%)</title><rect x="489.6" y="130" width="1.3" height="17" fill="hsl(15,91%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*routingNode).matchMethodAndPath
+5 samples (0.1%)</title><rect x="489.6" y="148" width="0.6" height="17" fill="hsl(40,86%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*routingNode).matchPath
+4 samples (0.1%)</title><rect x="489.6" y="166" width="0.5" height="17" fill="hsl(50,85%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.cleanPath
+6 samples (0.1%)</title><rect x="492.0" y="112" width="0.8" height="17" fill="hsl(14,94%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>path.Clean
+6 samples (0.1%)</title><rect x="492.0" y="130" width="0.8" height="17" fill="hsl(35,90%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*response).finishRequest
+513 samples (9.6%)</title><rect x="494.9" y="58" width="114.7" height="17" fill="hsl(23,81%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="71" fill="#111" clip-path="none">http.(*response).…</text></g>
+<g><title>bufio.(*Writer).Flush
+469 samples (8.8%)</title><rect x="494.9" y="76" width="104.8" height="17" fill="hsl(38,82%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="89" fill="#111" clip-path="none">bufio.(*Writer)…</text></g>
+<g><title>net/http.checkConnErrorWriter.Write
+379 samples (7.1%)</title><rect x="494.9" y="94" width="84.6" height="17" fill="hsl(59,79%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="107" fill="#111" clip-path="none">http.checkCo…</text></g>
+<g><title>net.(*conn).Write
+378 samples (7.1%)</title><rect x="494.9" y="112" width="84.3" height="17" fill="hsl(57,93%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="125" fill="#111" clip-path="none">net.(*conn).…</text></g>
+<g><title>net.(*netFD).Write
+377 samples (7.1%)</title><rect x="494.9" y="130" width="84.1" height="17" fill="hsl(13,83%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="143" fill="#111" clip-path="none">net.(*netFD)…</text></g>
+<g><title>internal/poll.(*FD).Write
+375 samples (7.0%)</title><rect x="494.9" y="148" width="83.7" height="17" fill="hsl(41,81%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="161" fill="#111" clip-path="none">poll.(*FD).W…</text></g>
+<g><title>internal/poll.(*FD).execIO
+357 samples (6.7%)</title><rect x="494.9" y="166" width="79.6" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="179" fill="#111" clip-path="none">poll.(*FD).…</text></g>
+<g><title>internal/poll.(*FD).Write.func2
+342 samples (6.4%)</title><rect x="494.9" y="184" width="76.3" height="17" fill="hsl(19,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="197" fill="#111" clip-path="none">poll.(*FD).…</text></g>
+<g><title>syscall.WSASend
+342 samples (6.4%)</title><rect x="494.9" y="202" width="76.3" height="17" fill="hsl(51,78%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="215" fill="#111" clip-path="none">syscall.WSA…</text></g>
+<g><title>syscall.SyscallN
+340 samples (6.4%)</title><rect x="494.9" y="220" width="75.8" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="233" fill="#111" clip-path="none">syscall.Sys…</text></g>
+<g><title>syscall.syscalln
+340 samples (6.4%)</title><rect x="494.9" y="238" width="75.8" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="251" fill="#111" clip-path="none">syscall.sys…</text></g>
+<g><title>runtime.cgocall
+340 samples (6.4%)</title><rect x="494.9" y="256" width="75.8" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="496.9" y="269" fill="#111" clip-path="none">runtime.cgo…</text></g>
+<g><title>sync.(*Pool).Put
+3 samples (0.1%)</title><rect x="571.7" y="184" width="0.5" height="17" fill="hsl(10,83%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Unpin
+3 samples (0.1%)</title><rect x="572.4" y="184" width="0.5" height="17" fill="hsl(40,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*pinner).unpin
+3 samples (0.1%)</title><rect x="572.4" y="202" width="0.5" height="17" fill="hsl(17,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*pollDesc).prepare
+3 samples (0.1%)</title><rect x="573.1" y="184" width="0.5" height="17" fill="hsl(51,79%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.pollInfo.closing
+3 samples (0.1%)</title><rect x="573.1" y="202" width="0.5" height="17" fill="hsl(26,85%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+6 samples (0.1%)</title><rect x="575.1" y="166" width="0.8" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+6 samples (0.1%)</title><rect x="575.1" y="184" width="0.8" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.asyncPreempt
+3 samples (0.1%)</title><rect x="576.4" y="166" width="0.5" height="17" fill="hsl(13,88%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*chunkWriter).Write
+89 samples (1.7%)</title><rect x="580.0" y="94" width="19.5" height="17" fill="hsl(23,90%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="582.0" y="107" fill="#111" clip-path="none">ht…</text></g>
+<g><title>net/http.(*chunkWriter).writeHeader
+61 samples (1.1%)</title><rect x="580.0" y="112" width="13.2" height="17" fill="hsl(25,86%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="582.0" y="125" fill="#111" clip-path="none">h…</text></g>
+<g><title>time.Time.AppendFormat
+21 samples (0.4%)</title><rect x="580.0" y="130" width="4.2" height="17" fill="hsl(11,92%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Time.appendFormat
+19 samples (0.4%)</title><rect x="580.0" y="148" width="3.8" height="17" fill="hsl(35,80%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.nextStdChunk
+7 samples (0.1%)</title><rect x="580.0" y="166" width="1.1" height="17" fill="hsl(23,89%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.appendInt
+3 samples (0.1%)</title><rect x="581.6" y="166" width="0.5" height="17" fill="hsl(34,80%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.Copy
+8 samples (0.1%)</title><rect x="584.7" y="130" width="1.3" height="17" fill="hsl(48,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.copyBuffer
+8 samples (0.1%)</title><rect x="584.7" y="148" width="1.3" height="17" fill="hsl(48,93%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.discard.ReadFrom
+5 samples (0.1%)</title><rect x="584.7" y="166" width="0.6" height="17" fill="hsl(26,91%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Get
+3 samples (0.1%)</title><rect x="584.7" y="184" width="0.5" height="17" fill="hsl(50,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.writeStatusLine
+7 samples (0.1%)</title><rect x="586.5" y="130" width="1.1" height="17" fill="hsl(16,78%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bufio.(*Writer).Available
+4 samples (0.1%)</title><rect x="586.5" y="148" width="0.5" height="17" fill="hsl(10,92%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapaccess2_faststr
+3 samples (0.1%)</title><rect x="588.1" y="130" width="0.5" height="17" fill="hsl(53,75%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).getWithoutKeySmallFastStr
+3 samples (0.1%)</title><rect x="588.1" y="148" width="0.5" height="17" fill="hsl(19,78%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.extraHeader.Write
+3 samples (0.1%)</title><rect x="588.8" y="130" width="0.5" height="17" fill="hsl(25,85%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bufio.(*Writer).Write
+3 samples (0.1%)</title><rect x="588.8" y="148" width="0.5" height="17" fill="hsl(24,94%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.Header.WriteSubset
+15 samples (0.3%)</title><rect x="593.7" y="112" width="2.9" height="17" fill="hsl(52,80%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.Header.writeSubset
+14 samples (0.3%)</title><rect x="593.7" y="130" width="2.6" height="17" fill="hsl(17,81%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strings.(*Replacer).Replace
+3 samples (0.1%)</title><rect x="593.7" y="148" width="0.5" height="17" fill="hsl(37,91%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.MIMEHeader.Del
+5 samples (0.1%)</title><rect x="597.1" y="112" width="0.6" height="17" fill="hsl(25,86%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.validHeaderFieldByte
+4 samples (0.1%)</title><rect x="597.1" y="130" width="0.5" height="17" fill="hsl(37,75%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.Header.Get
+3 samples (0.1%)</title><rect x="598.2" y="112" width="0.5" height="17" fill="hsl(12,81%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.MIMEHeader.Get
+3 samples (0.1%)</title><rect x="598.2" y="130" width="0.5" height="17" fill="hsl(11,86%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*connReader).abortPendingRead
+37 samples (0.7%)</title><rect x="600.2" y="76" width="7.8" height="17" fill="hsl(44,79%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).SetReadDeadline
+23 samples (0.4%)</title><rect x="600.2" y="94" width="4.7" height="17" fill="hsl(21,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.setDeadlineImpl
+22 samples (0.4%)</title><rect x="600.2" y="112" width="4.4" height="17" fill="hsl(26,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollSetDeadline
+15 samples (0.3%)</title><rect x="600.2" y="130" width="2.9" height="17" fill="hsl(14,77%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.goready
+8 samples (0.1%)</title><rect x="600.2" y="148" width="1.3" height="17" fill="hsl(11,81%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.systemstack
+8 samples (0.1%)</title><rect x="600.2" y="166" width="1.3" height="17" fill="hsl(55,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.netpollgoready.goready.func1
+7 samples (0.1%)</title><rect x="600.2" y="184" width="1.1" height="17" fill="hsl(40,94%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.ready
+6 samples (0.1%)</title><rect x="600.2" y="202" width="0.8" height="17" fill="hsl(27,86%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Until
+5 samples (0.1%)</title><rect x="603.6" y="130" width="0.6" height="17" fill="hsl(36,90%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>time.Time.Sub
+4 samples (0.1%)</title><rect x="603.6" y="148" width="0.5" height="17" fill="hsl(21,75%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Cond).Wait
+9 samples (0.2%)</title><rect x="605.4" y="94" width="1.5" height="17" fill="hsl(58,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.runtime_notifyListWait
+5 samples (0.1%)</title><rect x="605.4" y="112" width="0.6" height="17" fill="hsl(11,82%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*conn).readRequest
+225 samples (4.2%)</title><rect x="610.1" y="58" width="50.0" height="17" fill="hsl(21,78%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="612.1" y="71" fill="#111" clip-path="none">http.(*…</text></g>
+<g><title>net/textproto.(*Reader).ReadMIMEHeader
+76 samples (1.4%)</title><rect x="610.1" y="76" width="16.6" height="17" fill="hsl(45,76%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="612.1" y="89" fill="#111" clip-path="none">t…</text></g>
+<g><title>net/textproto.readMIMEHeader
+74 samples (1.4%)</title><rect x="610.1" y="94" width="16.1" height="17" fill="hsl(39,83%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="612.1" y="107" fill="#111" clip-path="none">t…</text></g>
+<g><title>net/textproto.canonicalMIMEHeaderKey
+15 samples (0.3%)</title><rect x="610.1" y="112" width="2.9" height="17" fill="hsl(19,92%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapaccess1_faststr
+9 samples (0.2%)</title><rect x="610.1" y="130" width="1.5" height="17" fill="hsl(52,81%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>memeqbody
+3 samples (0.1%)</title><rect x="610.1" y="148" width="0.5" height="17" fill="hsl(46,82%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapassign_faststr
+10 samples (0.2%)</title><rect x="613.5" y="112" width="1.7" height="17" fill="hsl(39,91%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.newGroups
+8 samples (0.1%)</title><rect x="613.5" y="130" width="1.3" height="17" fill="hsl(32,90%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.newarray
+8 samples (0.1%)</title><rect x="613.5" y="148" width="1.3" height="17" fill="hsl(20,84%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newarray
+7 samples (0.1%)</title><rect x="613.5" y="166" width="1.1" height="17" fill="hsl(36,77%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+7 samples (0.1%)</title><rect x="613.5" y="184" width="1.1" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.heapSetTypeNoHeader
+4 samples (0.1%)</title><rect x="613.5" y="202" width="0.5" height="17" fill="hsl(19,83%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mspan).writeHeapBitsSmall
+4 samples (0.1%)</title><rect x="613.5" y="220" width="0.5" height="17" fill="hsl(22,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.slicebytetostring
+10 samples (0.2%)</title><rect x="615.7" y="112" width="1.7" height="17" fill="hsl(45,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+9 samples (0.2%)</title><rect x="615.7" y="130" width="1.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.deductAssistCredit
+3 samples (0.1%)</title><rect x="615.7" y="148" width="0.5" height="17" fill="hsl(17,79%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcAssistAlloc
+3 samples (0.1%)</title><rect x="615.7" y="166" width="0.5" height="17" fill="hsl(30,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.(*Reader).upcomingHeaderKeys
+7 samples (0.1%)</title><rect x="618.0" y="112" width="1.1" height="17" fill="hsl(44,91%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bytes.Cut
+4 samples (0.1%)</title><rect x="618.0" y="130" width="0.5" height="17" fill="hsl(16,86%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bytes.IndexByte
+4 samples (0.1%)</title><rect x="618.0" y="148" width="0.5" height="17" fill="hsl(15,75%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>indexbytebody
+4 samples (0.1%)</title><rect x="618.0" y="166" width="0.5" height="17" fill="hsl(53,87%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.makeslice
+6 samples (0.1%)</title><rect x="619.5" y="112" width="0.8" height="17" fill="hsl(49,88%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+4 samples (0.1%)</title><rect x="619.5" y="130" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.makemap
+6 samples (0.1%)</title><rect x="620.9" y="112" width="0.8" height="17" fill="hsl(53,76%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.NewMap
+6 samples (0.1%)</title><rect x="620.9" y="130" width="0.8" height="17" fill="hsl(12,81%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.rand
+3 samples (0.1%)</title><rect x="620.9" y="148" width="0.5" height="17" fill="hsl(28,81%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+3 samples (0.1%)</title><rect x="621.5" y="148" width="0.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="621.5" y="166" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.(*Reader).readContinuedLineSlice
+6 samples (0.1%)</title><rect x="622.2" y="112" width="0.8" height="17" fill="hsl(44,75%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.(*Reader).readLineSlice
+5 samples (0.1%)</title><rect x="622.2" y="130" width="0.6" height="17" fill="hsl(15,79%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bufio.(*Reader).ReadLine
+5 samples (0.1%)</title><rect x="622.2" y="148" width="0.6" height="17" fill="hsl(21,79%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bytes.IndexByte
+5 samples (0.1%)</title><rect x="622.2" y="166" width="0.6" height="17" fill="hsl(15,75%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>indexbytebody
+3 samples (0.1%)</title><rect x="622.2" y="184" width="0.5" height="17" fill="hsl(53,87%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.readRequest
+73 samples (1.4%)</title><rect x="627.2" y="76" width="15.9" height="17" fill="hsl(30,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="629.2" y="89" fill="#111" clip-path="none">h…</text></g>
+<g><title>net/url.ParseRequestURI
+20 samples (0.4%)</title><rect x="627.2" y="94" width="4.0" height="17" fill="hsl(43,85%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/url.parse
+18 samples (0.3%)</title><rect x="627.2" y="112" width="3.5" height="17" fill="hsl(31,82%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+9 samples (0.2%)</title><rect x="627.2" y="130" width="1.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+8 samples (0.1%)</title><rect x="627.2" y="148" width="1.3" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.nextFreeFast
+5 samples (0.1%)</title><rect x="627.2" y="166" width="0.6" height="17" fill="hsl(19,91%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/url.(*URL).setPath
+6 samples (0.1%)</title><rect x="629.2" y="130" width="0.8" height="17" fill="hsl(11,82%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/url.unescape
+3 samples (0.1%)</title><rect x="629.2" y="148" width="0.5" height="17" fill="hsl(14,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.readTransfer
+17 samples (0.3%)</title><rect x="631.6" y="94" width="3.3" height="17" fill="hsl(10,93%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.fixLength
+9 samples (0.2%)</title><rect x="631.6" y="112" width="1.5" height="17" fill="hsl(33,81%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.parseContentLength
+6 samples (0.1%)</title><rect x="631.6" y="130" width="0.8" height="17" fill="hsl(14,81%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strconv.ParseUint
+4 samples (0.1%)</title><rect x="631.6" y="148" width="0.5" height="17" fill="hsl(30,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+12 samples (0.2%)</title><rect x="635.5" y="94" width="2.2" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+10 samples (0.2%)</title><rect x="635.5" y="112" width="1.7" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallScanNoHeader
+5 samples (0.1%)</title><rect x="635.5" y="130" width="0.6" height="17" fill="hsl(41,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.nextFreeFast
+4 samples (0.1%)</title><rect x="636.6" y="130" width="0.5" height="17" fill="hsl(19,91%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>strings.Cut
+4 samples (0.1%)</title><rect x="638.2" y="94" width="0.5" height="17" fill="hsl(44,91%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/stringslite.Cut
+4 samples (0.1%)</title><rect x="638.2" y="112" width="0.5" height="17" fill="hsl(58,81%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.newTextprotoReader
+4 samples (0.1%)</title><rect x="639.1" y="94" width="0.5" height="17" fill="hsl(21,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*_panic).nextDefer
+3 samples (0.1%)</title><rect x="640.0" y="94" width="0.5" height="17" fill="hsl(16,90%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.LimitReader
+3 samples (0.1%)</title><rect x="640.6" y="94" width="0.5" height="17" fill="hsl(50,82%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+3 samples (0.1%)</title><rect x="640.6" y="112" width="0.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.withCancel
+19 samples (0.4%)</title><rect x="643.5" y="76" width="3.8" height="17" fill="hsl(13,81%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.(*cancelCtx).propagateCancel
+14 samples (0.3%)</title><rect x="643.5" y="94" width="2.6" height="17" fill="hsl(28,94%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapassign
+8 samples (0.1%)</title><rect x="643.5" y="112" width="1.3" height="17" fill="hsl(51,87%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).putSlotSmall
+3 samples (0.1%)</title><rect x="643.5" y="130" width="0.5" height="17" fill="hsl(12,84%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.(*cancelCtx).Done
+4 samples (0.1%)</title><rect x="645.3" y="112" width="0.5" height="17" fill="hsl(33,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+4 samples (0.1%)</title><rect x="646.7" y="94" width="0.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.(*Reader).ReadLine
+10 samples (0.2%)</title><rect x="647.8" y="76" width="1.7" height="17" fill="hsl(19,81%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.slicebytetostring
+6 samples (0.1%)</title><rect x="647.8" y="94" width="0.8" height="17" fill="hsl(45,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+6 samples (0.1%)</title><rect x="647.8" y="112" width="0.8" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/textproto.(*Reader).readLineSlice
+4 samples (0.1%)</title><rect x="649.2" y="94" width="0.5" height="17" fill="hsl(15,79%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bufio.(*Reader).ReadLine
+4 samples (0.1%)</title><rect x="649.2" y="112" width="0.5" height="17" fill="hsl(21,79%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapdelete_faststr
+8 samples (0.1%)</title><rect x="650.1" y="76" width="1.3" height="17" fill="hsl(54,94%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).Delete
+8 samples (0.1%)</title><rect x="650.1" y="94" width="1.3" height="17" fill="hsl(38,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).deleteSmall
+6 samples (0.1%)</title><rect x="650.1" y="112" width="0.8" height="17" fill="hsl(38,84%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.typedmemclr
+4 samples (0.1%)</title><rect x="650.1" y="130" width="0.5" height="17" fill="hsl(17,79%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.typedmemclr
+4 samples (0.1%)</title><rect x="650.1" y="148" width="0.5" height="17" fill="hsl(59,81%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.NewEmptyMap
+6 samples (0.1%)</title><rect x="651.9" y="76" width="0.8" height="17" fill="hsl(55,76%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+6 samples (0.1%)</title><rect x="651.9" y="94" width="0.8" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="651.9" y="112" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+6 samples (0.1%)</title><rect x="653.2" y="76" width="0.8" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+6 samples (0.1%)</title><rect x="653.2" y="94" width="0.8" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgcSmallScanNoHeader
+3 samples (0.1%)</title><rect x="653.2" y="112" width="0.5" height="17" fill="hsl(41,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.newBufioWriterSize
+4 samples (0.1%)</title><rect x="654.5" y="76" width="0.5" height="17" fill="hsl(28,81%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Get
+3 samples (0.1%)</title><rect x="654.5" y="94" width="0.5" height="17" fill="hsl(50,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapIterStart
+4 samples (0.1%)</title><rect x="655.4" y="76" width="0.5" height="17" fill="hsl(21,88%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapIterNext
+4 samples (0.1%)</title><rect x="656.3" y="76" width="0.5" height="17" fill="hsl(27,94%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bufio.(*Reader).Peek
+123 samples (2.3%)</title><rect x="660.6" y="58" width="27.1" height="17" fill="hsl(50,85%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="71" fill="#111" clip-path="none">buf…</text></g>
+<g><title>bufio.(*Reader).fill
+118 samples (2.2%)</title><rect x="660.6" y="76" width="26.0" height="17" fill="hsl(19,87%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="89" fill="#111" clip-path="none">buf…</text></g>
+<g><title>net/http.(*connReader).Read
+115 samples (2.2%)</title><rect x="660.6" y="94" width="25.3" height="17" fill="hsl(21,93%,47%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="107" fill="#111" clip-path="none">htt…</text></g>
+<g><title>net.(*conn).Read
+105 samples (2.0%)</title><rect x="660.6" y="112" width="23.1" height="17" fill="hsl(25,83%,55%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="125" fill="#111" clip-path="none">ne…</text></g>
+<g><title>net.(*netFD).Read
+105 samples (2.0%)</title><rect x="660.6" y="130" width="23.1" height="17" fill="hsl(26,84%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="143" fill="#111" clip-path="none">ne…</text></g>
+<g><title>internal/poll.(*FD).Read
+105 samples (2.0%)</title><rect x="660.6" y="148" width="23.1" height="17" fill="hsl(44,86%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="161" fill="#111" clip-path="none">po…</text></g>
+<g><title>internal/poll.(*FD).execIO
+96 samples (1.8%)</title><rect x="660.6" y="166" width="21.0" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="179" fill="#111" clip-path="none">po…</text></g>
+<g><title>internal/poll.(*FD).Read.func2
+63 samples (1.2%)</title><rect x="660.6" y="184" width="13.6" height="17" fill="hsl(58,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="197" fill="#111" clip-path="none">p…</text></g>
+<g><title>syscall.WSARecv
+62 samples (1.2%)</title><rect x="660.6" y="202" width="13.4" height="17" fill="hsl(29,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="215" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.SyscallN
+60 samples (1.1%)</title><rect x="660.6" y="220" width="13.0" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="233" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.syscalln
+60 samples (1.1%)</title><rect x="660.6" y="238" width="13.0" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="251" fill="#111" clip-path="none">s…</text></g>
+<g><title>runtime.cgocall
+60 samples (1.1%)</title><rect x="660.6" y="256" width="13.0" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="662.6" y="269" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.entersyscall
+4 samples (0.1%)</title><rect x="660.6" y="274" width="0.5" height="17" fill="hsl(31,76%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.reentersyscall
+3 samples (0.1%)</title><rect x="660.6" y="292" width="0.5" height="17" fill="hsl(26,89%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/syscall/windows.WSAGetOverlappedResult
+9 samples (0.2%)</title><rect x="674.7" y="184" width="1.5" height="17" fill="hsl(22,94%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.SyscallN
+9 samples (0.2%)</title><rect x="674.7" y="202" width="1.5" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+9 samples (0.2%)</title><rect x="674.7" y="220" width="1.5" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+9 samples (0.2%)</title><rect x="674.7" y="238" width="1.5" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).waitIO
+7 samples (0.1%)</title><rect x="676.8" y="184" width="1.1" height="17" fill="hsl(31,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*pollDesc).wait
+6 samples (0.1%)</title><rect x="676.8" y="202" width="0.8" height="17" fill="hsl(59,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollWait
+5 samples (0.1%)</title><rect x="676.8" y="220" width="0.6" height="17" fill="hsl(28,77%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.netpollblock
+4 samples (0.1%)</title><rect x="676.8" y="238" width="0.5" height="17" fill="hsl(29,90%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Unpin
+6 samples (0.1%)</title><rect x="678.3" y="184" width="0.8" height="17" fill="hsl(40,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*pinner).unpin
+6 samples (0.1%)</title><rect x="678.3" y="202" width="0.8" height="17" fill="hsl(17,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.setPinned
+4 samples (0.1%)</title><rect x="678.3" y="220" width="0.5" height="17" fill="hsl(45,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+4 samples (0.1%)</title><rect x="679.7" y="184" width="0.5" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+4 samples (0.1%)</title><rect x="679.7" y="202" width="0.5" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Put
+3 samples (0.1%)</title><rect x="680.6" y="184" width="0.5" height="17" fill="hsl(10,83%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+6 samples (0.1%)</title><rect x="682.2" y="166" width="0.8" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+6 samples (0.1%)</title><rect x="682.2" y="184" width="0.8" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.pinnerGetPtr
+5 samples (0.1%)</title><rect x="682.2" y="202" width="0.6" height="17" fill="hsl(51,94%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/sync.(*Mutex).Lock
+4 samples (0.1%)</title><rect x="684.2" y="112" width="0.5" height="17" fill="hsl(57,88%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.WithCancel.func1
+17 samples (0.3%)</title><rect x="688.2" y="58" width="3.3" height="17" fill="hsl(54,77%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.(*cancelCtx).cancel
+16 samples (0.3%)</title><rect x="688.2" y="76" width="3.1" height="17" fill="hsl(54,77%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.removeChild
+11 samples (0.2%)</title><rect x="688.2" y="94" width="2.0" height="17" fill="hsl(41,89%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mapdelete
+7 samples (0.1%)</title><rect x="688.2" y="112" width="1.1" height="17" fill="hsl(25,78%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.(*Map).Delete
+5 samples (0.1%)</title><rect x="688.2" y="130" width="0.6" height="17" fill="hsl(38,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/maps.h2
+3 samples (0.1%)</title><rect x="688.2" y="148" width="0.5" height="17" fill="hsl(17,90%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.parentCancelCtx
+4 samples (0.1%)</title><rect x="689.8" y="112" width="0.5" height="17" fill="hsl(12,79%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>context.(*cancelCtx).Done
+3 samples (0.1%)</title><rect x="689.8" y="130" width="0.5" height="17" fill="hsl(33,75%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>vendor/golang.org/x/net/http/httpguts.ValidHostHeader
+4 samples (0.1%)</title><rect x="692.0" y="58" width="0.5" height="17" fill="hsl(31,90%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*conn).setState
+4 samples (0.1%)</title><rect x="692.9" y="58" width="0.5" height="17" fill="hsl(18,94%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).SetReadDeadline
+3 samples (0.1%)</title><rect x="693.8" y="58" width="0.5" height="17" fill="hsl(21,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.registerOnHitEOF
+3 samples (0.1%)</title><rect x="694.5" y="58" width="0.5" height="17" fill="hsl(32,81%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>vendor/golang.org/x/net/http/httpguts.isCTL
+3 samples (0.1%)</title><rect x="695.2" y="58" width="0.5" height="17" fill="hsl(59,75%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*TCPConn).SetReadDeadline
+3 samples (0.1%)</title><rect x="695.8" y="58" width="0.5" height="17" fill="hsl(17,93%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mcall
+1407 samples (26.3%)</title><rect x="702.1" y="40" width="315.3" height="17" fill="hsl(46,81%,46%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="53" fill="#111" clip-path="none">runtime.mcall</text></g>
+<g><title>runtime.park_m
+1372 samples (25.7%)</title><rect x="702.1" y="58" width="307.5" height="17" fill="hsl(25,81%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="71" fill="#111" clip-path="none">runtime.park_m</text></g>
+<g><title>runtime.schedule
+1364 samples (25.5%)</title><rect x="702.1" y="76" width="305.7" height="17" fill="hsl(15,87%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="89" fill="#111" clip-path="none">runtime.schedule</text></g>
+<g><title>runtime.findRunnable
+1047 samples (19.6%)</title><rect x="702.1" y="94" width="234.5" height="17" fill="hsl(53,87%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="107" fill="#111" clip-path="none">runtime.findRunnable</text></g>
+<g><title>runtime.stealWork
+694 samples (13.0%)</title><rect x="702.1" y="112" width="155.3" height="17" fill="hsl(24,79%,55%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="125" fill="#111" clip-path="none">runtime.stealWork</text></g>
+<g><title>runtime.runqsteal
+680 samples (12.7%)</title><rect x="702.1" y="130" width="152.1" height="17" fill="hsl(17,80%,46%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="143" fill="#111" clip-path="none">runtime.runqsteal</text></g>
+<g><title>runtime.osyield
+667 samples (12.5%)</title><rect x="702.1" y="148" width="149.2" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="161" fill="#111" clip-path="none">runtime.osyield</text></g>
+<g><title>runtime.runqgrab.osyield.func1
+667 samples (12.5%)</title><rect x="702.1" y="166" width="149.2" height="17" fill="hsl(10,94%,48%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="704.1" y="179" fill="#111" clip-path="none">runtime.runqgrab.osyiel…</text></g>
+<g><title>runtime.runqgrab
+9 samples (0.2%)</title><rect x="851.9" y="148" width="1.5" height="17" fill="hsl(42,90%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+125 samples (2.3%)</title><rect x="857.9" y="112" width="27.6" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="859.9" y="125" fill="#111" clip-path="none">run…</text></g>
+<g><title>runtime.lock2
+105 samples (2.0%)</title><rect x="857.9" y="130" width="23.1" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="859.9" y="143" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.semasleep
+105 samples (2.0%)</title><rect x="857.9" y="148" width="23.1" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="859.9" y="161" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.osyield
+19 samples (0.4%)</title><rect x="881.5" y="130" width="3.8" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2.osyield.func1
+19 samples (0.4%)</title><rect x="881.5" y="148" width="3.8" height="17" fill="hsl(29,77%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.netpoll
+87 samples (1.6%)</title><rect x="886.0" y="112" width="19.0" height="17" fill="hsl(56,75%,46%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="888.0" y="125" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.netpollQueueTimer
+28 samples (0.5%)</title><rect x="886.0" y="130" width="5.8" height="17" fill="hsl(38,89%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.netpollready
+3 samples (0.1%)</title><rect x="892.3" y="130" width="0.5" height="17" fill="hsl(26,87%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.injectglist
+68 samples (1.3%)</title><rect x="905.5" y="112" width="14.8" height="17" fill="hsl(30,76%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="907.5" y="125" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.injectglist.func1
+52 samples (1.0%)</title><rect x="905.5" y="130" width="11.2" height="17" fill="hsl(28,87%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.startm
+45 samples (0.8%)</title><rect x="905.5" y="148" width="9.6" height="17" fill="hsl(38,86%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.notewakeup
+43 samples (0.8%)</title><rect x="905.5" y="166" width="9.2" height="17" fill="hsl(18,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semawakeup
+43 samples (0.8%)</title><rect x="905.5" y="184" width="9.2" height="17" fill="hsl(23,76%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mget
+4 samples (0.1%)</title><rect x="915.6" y="148" width="0.5" height="17" fill="hsl(11,77%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*listHeadManual).pop
+4 samples (0.1%)</title><rect x="915.6" y="166" width="0.5" height="17" fill="hsl(41,89%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.pidlegetSpinning
+3 samples (0.1%)</title><rect x="916.5" y="148" width="0.5" height="17" fill="hsl(12,86%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.wakep
+5 samples (0.1%)</title><rect x="917.2" y="130" width="0.6" height="17" fill="hsl(40,84%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.pidlegetSpinning
+3 samples (0.1%)</title><rect x="917.2" y="148" width="0.5" height="17" fill="hsl(12,86%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.casgstatus
+4 samples (0.1%)</title><rect x="918.3" y="130" width="0.5" height="17" fill="hsl(18,75%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.osyield
+3 samples (0.1%)</title><rect x="919.2" y="130" width="0.5" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.casgstatus.osyield.func4
+3 samples (0.1%)</title><rect x="919.2" y="148" width="0.5" height="17" fill="hsl(11,75%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.stopm
+11 samples (0.2%)</title><rect x="920.8" y="112" width="2.0" height="17" fill="hsl(39,89%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mput
+5 samples (0.1%)</title><rect x="920.8" y="130" width="0.6" height="17" fill="hsl(36,77%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*listHeadManual).push
+3 samples (0.1%)</title><rect x="920.8" y="148" width="0.5" height="17" fill="hsl(33,85%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.acquirep
+4 samples (0.1%)</title><rect x="921.9" y="130" width="0.5" height="17" fill="hsl(14,85%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.acquirepNoTrace
+4 samples (0.1%)</title><rect x="921.9" y="148" width="0.5" height="17" fill="hsl(51,89%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/atomic.(*Uint32).Load
+3 samples (0.1%)</title><rect x="921.9" y="166" width="0.5" height="17" fill="hsl(36,91%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*timers).check
+8 samples (0.1%)</title><rect x="923.2" y="112" width="1.3" height="17" fill="hsl(40,85%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.releasep
+5 samples (0.1%)</title><rect x="925.0" y="112" width="0.6" height="17" fill="hsl(16,84%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.releasepNoTrace
+4 samples (0.1%)</title><rect x="925.0" y="130" width="0.5" height="17" fill="hsl(57,81%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*gcControllerState).releaseNextGCMarkWorker
+4 samples (0.1%)</title><rect x="925.0" y="148" width="0.5" height="17" fill="hsl(11,82%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.pidleput
+5 samples (0.1%)</title><rect x="926.2" y="112" width="0.6" height="17" fill="hsl(41,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*timers).wakeTime
+3 samples (0.1%)</title><rect x="927.3" y="112" width="0.5" height="17" fill="hsl(47,84%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+273 samples (5.1%)</title><rect x="937.1" y="94" width="60.8" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="939.1" y="107" fill="#111" clip-path="none">runtime.…</text></g>
+<g><title>runtime.osyield
+143 samples (2.7%)</title><rect x="937.1" y="112" width="31.6" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="939.1" y="125" fill="#111" clip-path="none">runt…</text></g>
+<g><title>runtime.lock2.osyield.func1
+143 samples (2.7%)</title><rect x="937.1" y="130" width="31.6" height="17" fill="hsl(29,77%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="939.1" y="143" fill="#111" clip-path="none">runt…</text></g>
+<g><title>runtime.lock2
+118 samples (2.2%)</title><rect x="969.2" y="112" width="26.0" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="971.2" y="125" fill="#111" clip-path="none">run…</text></g>
+<g><title>runtime.semasleep
+115 samples (2.2%)</title><rect x="969.2" y="130" width="25.3" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="971.2" y="143" fill="#111" clip-path="none">run…</text></g>
+<g><title>runtime.procyield
+12 samples (0.2%)</title><rect x="995.7" y="112" width="2.2" height="17" fill="hsl(48,82%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.procyieldAsm
+12 samples (0.2%)</title><rect x="995.7" y="130" width="2.2" height="17" fill="hsl(28,93%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.execute
+12 samples (0.2%)</title><rect x="998.4" y="94" width="2.2" height="17" fill="hsl(21,90%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.casgstatus
+4 samples (0.1%)</title><rect x="998.4" y="112" width="0.5" height="17" fill="hsl(18,75%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*timeHistogram).record
+4 samples (0.1%)</title><rect x="998.4" y="130" width="0.5" height="17" fill="hsl(59,88%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.resetspinning
+8 samples (0.1%)</title><rect x="1001.1" y="94" width="1.3" height="17" fill="hsl(32,78%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.wakep
+5 samples (0.1%)</title><rect x="1001.1" y="112" width="0.6" height="17" fill="hsl(40,84%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.startm
+3 samples (0.1%)</title><rect x="1001.1" y="130" width="0.5" height="17" fill="hsl(38,86%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.notewakeup
+3 samples (0.1%)</title><rect x="1001.1" y="148" width="0.5" height="17" fill="hsl(18,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semawakeup
+3 samples (0.1%)</title><rect x="1001.1" y="166" width="0.5" height="17" fill="hsl(23,76%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+3 samples (0.1%)</title><rect x="1002.2" y="112" width="0.5" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.unlockWithRank
+5 samples (0.1%)</title><rect x="1002.9" y="94" width="0.6" height="17" fill="hsl(14,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.unlock2
+3 samples (0.1%)</title><rect x="1002.9" y="112" width="0.5" height="17" fill="hsl(23,83%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*gcControllerState).releaseNextGCMarkWorker
+3 samples (0.1%)</title><rect x="1004.0" y="94" width="0.5" height="17" fill="hsl(11,82%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.goexit0
+21 samples (0.4%)</title><rect x="1010.1" y="58" width="4.2" height="17" fill="hsl(41,79%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.schedule
+17 samples (0.3%)</title><rect x="1010.1" y="76" width="3.3" height="17" fill="hsl(15,87%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.findRunnable
+14 samples (0.3%)</title><rect x="1010.1" y="94" width="2.6" height="17" fill="hsl(53,87%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.stealWork
+8 samples (0.1%)</title><rect x="1010.1" y="112" width="1.3" height="17" fill="hsl(24,79%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.runqsteal
+8 samples (0.1%)</title><rect x="1010.1" y="130" width="1.3" height="17" fill="hsl(17,80%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.osyield
+8 samples (0.1%)</title><rect x="1010.1" y="148" width="1.3" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.runqgrab.osyield.func1
+8 samples (0.1%)</title><rect x="1010.1" y="166" width="1.3" height="17" fill="hsl(10,94%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+5 samples (0.1%)</title><rect x="1011.9" y="112" width="0.6" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+4 samples (0.1%)</title><rect x="1011.9" y="130" width="0.5" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+4 samples (0.1%)</title><rect x="1011.9" y="148" width="0.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gdestroy
+4 samples (0.1%)</title><rect x="1013.9" y="76" width="0.5" height="17" fill="hsl(13,80%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.exitsyscallNoP
+5 samples (0.1%)</title><rect x="1014.8" y="58" width="0.6" height="17" fill="hsl(36,88%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.schedule
+4 samples (0.1%)</title><rect x="1014.8" y="76" width="0.5" height="17" fill="hsl(15,87%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.findRunnable
+3 samples (0.1%)</title><rect x="1014.8" y="94" width="0.5" height="17" fill="hsl(53,87%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gopreempt_m
+4 samples (0.1%)</title><rect x="1015.9" y="58" width="0.5" height="17" fill="hsl(44,82%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.goschedImpl
+3 samples (0.1%)</title><rect x="1015.9" y="76" width="0.5" height="17" fill="hsl(58,77%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.systemstack
+362 samples (6.8%)</title><rect x="1018.0" y="40" width="80.8" height="17" fill="hsl(55,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1020.0" y="53" fill="#111" clip-path="none">runtime.syst…</text></g>
+<g><title>runtime.gcDrainMarkWorkerDedicated
+88 samples (1.6%)</title><rect x="1018.0" y="58" width="19.3" height="17" fill="hsl(40,92%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1020.0" y="71" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.gcDrain
+88 samples (1.6%)</title><rect x="1018.0" y="76" width="19.3" height="17" fill="hsl(24,84%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1020.0" y="89" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.(*gcControllerState).enlistWorker
+53 samples (1.0%)</title><rect x="1018.0" y="94" width="11.4" height="17" fill="hsl(48,89%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptone
+51 samples (1.0%)</title><rect x="1018.0" y="112" width="10.9" height="17" fill="hsl(42,76%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptM
+29 samples (0.5%)</title><rect x="1018.0" y="130" width="6.0" height="17" fill="hsl(47,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+22 samples (0.4%)</title><rect x="1024.5" y="130" width="4.4" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+15 samples (0.3%)</title><rect x="1024.5" y="148" width="2.9" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+15 samples (0.3%)</title><rect x="1024.5" y="166" width="2.9" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.osyield
+7 samples (0.1%)</title><rect x="1027.8" y="148" width="1.1" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2.osyield.func1
+7 samples (0.1%)</title><rect x="1027.8" y="166" width="1.1" height="17" fill="hsl(29,77%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.markroot
+35 samples (0.7%)</title><rect x="1029.9" y="94" width="7.4" height="17" fill="hsl(19,77%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.markroot.func1
+35 samples (0.7%)</title><rect x="1029.9" y="112" width="7.4" height="17" fill="hsl(10,89%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.suspendG
+25 samples (0.5%)</title><rect x="1029.9" y="130" width="5.1" height="17" fill="hsl(24,85%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+14 samples (0.3%)</title><rect x="1029.9" y="148" width="2.6" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+13 samples (0.2%)</title><rect x="1029.9" y="166" width="2.4" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+13 samples (0.2%)</title><rect x="1029.9" y="184" width="2.4" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptM
+11 samples (0.2%)</title><rect x="1033.0" y="148" width="2.0" height="17" fill="hsl(47,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.osyield
+10 samples (0.2%)</title><rect x="1035.5" y="130" width="1.7" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.suspendG.osyield.func1
+10 samples (0.2%)</title><rect x="1035.5" y="148" width="1.7" height="17" fill="hsl(28,94%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.reentersyscall.func4
+68 samples (1.3%)</title><rect x="1037.7" y="58" width="14.8" height="17" fill="hsl(14,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1039.7" y="71" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.lockWithRank
+67 samples (1.3%)</title><rect x="1037.7" y="76" width="14.5" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1039.7" y="89" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.lock2
+58 samples (1.1%)</title><rect x="1037.7" y="94" width="12.5" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1039.7" y="107" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.semasleep
+58 samples (1.1%)</title><rect x="1037.7" y="112" width="12.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1039.7" y="125" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.osyield
+9 samples (0.2%)</title><rect x="1050.7" y="94" width="1.5" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2.osyield.func1
+9 samples (0.2%)</title><rect x="1050.7" y="112" width="1.5" height="17" fill="hsl(29,77%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.osPreemptExtEnter.osyield.func1
+68 samples (1.3%)</title><rect x="1053.0" y="58" width="14.8" height="17" fill="hsl(36,80%,47%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1055.0" y="71" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.gcAssistAlloc.func2
+37 samples (0.7%)</title><rect x="1068.2" y="58" width="7.8" height="17" fill="hsl(14,94%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcAssistAlloc1
+37 samples (0.7%)</title><rect x="1068.2" y="76" width="7.8" height="17" fill="hsl(13,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcDrainN
+37 samples (0.7%)</title><rect x="1068.2" y="94" width="7.8" height="17" fill="hsl(57,79%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.markroot
+18 samples (0.3%)</title><rect x="1068.2" y="112" width="3.5" height="17" fill="hsl(19,77%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.markroot.func1
+18 samples (0.3%)</title><rect x="1068.2" y="130" width="3.5" height="17" fill="hsl(10,89%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.suspendG
+18 samples (0.3%)</title><rect x="1068.2" y="148" width="3.5" height="17" fill="hsl(24,85%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+13 samples (0.2%)</title><rect x="1068.2" y="166" width="2.4" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+13 samples (0.2%)</title><rect x="1068.2" y="184" width="2.4" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+13 samples (0.2%)</title><rect x="1068.2" y="202" width="2.4" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptM
+5 samples (0.1%)</title><rect x="1071.2" y="166" width="0.6" height="17" fill="hsl(47,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*gcControllerState).enlistWorker
+18 samples (0.3%)</title><rect x="1072.3" y="112" width="3.5" height="17" fill="hsl(48,89%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptone
+18 samples (0.3%)</title><rect x="1072.3" y="130" width="3.5" height="17" fill="hsl(42,76%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+14 samples (0.3%)</title><rect x="1072.3" y="148" width="2.6" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+14 samples (0.3%)</title><rect x="1072.3" y="166" width="2.6" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+14 samples (0.3%)</title><rect x="1072.3" y="184" width="2.6" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptM
+3 samples (0.1%)</title><rect x="1075.4" y="148" width="0.5" height="17" fill="hsl(47,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+26 samples (0.5%)</title><rect x="1076.5" y="58" width="5.3" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+21 samples (0.4%)</title><rect x="1076.5" y="76" width="4.2" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+21 samples (0.4%)</title><rect x="1076.5" y="94" width="4.2" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.osyield
+5 samples (0.1%)</title><rect x="1081.3" y="76" width="0.6" height="17" fill="hsl(15,83%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2.osyield.func1
+5 samples (0.1%)</title><rect x="1081.3" y="94" width="0.6" height="17" fill="hsl(29,77%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2.osyield.func1
+22 samples (0.4%)</title><rect x="1082.4" y="58" width="4.4" height="17" fill="hsl(29,77%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcStart.func2
+16 samples (0.3%)</title><rect x="1087.3" y="58" width="3.1" height="17" fill="hsl(53,78%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.stopTheWorldWithSema
+14 samples (0.3%)</title><rect x="1087.3" y="76" width="2.6" height="17" fill="hsl(40,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptall
+14 samples (0.3%)</title><rect x="1087.3" y="94" width="2.6" height="17" fill="hsl(37,93%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptone
+14 samples (0.3%)</title><rect x="1087.3" y="112" width="2.6" height="17" fill="hsl(42,76%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptM
+14 samples (0.3%)</title><rect x="1087.3" y="130" width="2.6" height="17" fill="hsl(47,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcMarkDone.forEachP.func5
+10 samples (0.2%)</title><rect x="1090.9" y="58" width="1.7" height="17" fill="hsl(43,83%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.forEachPInternal
+9 samples (0.2%)</title><rect x="1090.9" y="76" width="1.5" height="17" fill="hsl(55,83%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptall
+9 samples (0.2%)</title><rect x="1090.9" y="94" width="1.5" height="17" fill="hsl(37,93%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptone
+9 samples (0.2%)</title><rect x="1090.9" y="112" width="1.5" height="17" fill="hsl(42,76%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptM
+8 samples (0.1%)</title><rect x="1090.9" y="130" width="1.3" height="17" fill="hsl(47,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.netpollgoready.goready.func1
+8 samples (0.1%)</title><rect x="1093.2" y="58" width="1.3" height="17" fill="hsl(40,94%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.ready
+8 samples (0.1%)</title><rect x="1093.2" y="76" width="1.3" height="17" fill="hsl(27,86%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+5 samples (0.1%)</title><rect x="1093.2" y="94" width="0.6" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+3 samples (0.1%)</title><rect x="1093.2" y="112" width="0.5" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+3 samples (0.1%)</title><rect x="1093.2" y="130" width="0.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newproc.func1
+4 samples (0.1%)</title><rect x="1094.9" y="58" width="0.5" height="17" fill="hsl(58,79%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.readyWithTime.goready.func1
+3 samples (0.1%)</title><rect x="1095.8" y="58" width="0.5" height="17" fill="hsl(53,78%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.ready
+3 samples (0.1%)</title><rect x="1095.8" y="76" width="0.5" height="17" fill="hsl(27,86%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcMarkDone.func2
+3 samples (0.1%)</title><rect x="1096.5" y="58" width="0.5" height="17" fill="hsl(20,88%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.stopTheWorldWithSema
+3 samples (0.1%)</title><rect x="1096.5" y="76" width="0.5" height="17" fill="hsl(40,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptall
+3 samples (0.1%)</title><rect x="1096.5" y="94" width="0.5" height="17" fill="hsl(37,93%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptone
+3 samples (0.1%)</title><rect x="1096.5" y="112" width="0.5" height="17" fill="hsl(42,76%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.preemptM
+3 samples (0.1%)</title><rect x="1096.5" y="130" width="0.5" height="17" fill="hsl(47,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net/http.(*connReader).backgroundRead
+236 samples (4.4%)</title><rect x="1099.2" y="40" width="52.5" height="17" fill="hsl(38,81%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="53" fill="#111" clip-path="none">http.(*…</text></g>
+<g><title>net.(*conn).Read
+227 samples (4.2%)</title><rect x="1099.2" y="58" width="50.5" height="17" fill="hsl(25,83%,55%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="71" fill="#111" clip-path="none">net.(*c…</text></g>
+<g><title>net.(*netFD).Read
+219 samples (4.1%)</title><rect x="1099.2" y="76" width="48.7" height="17" fill="hsl(26,84%,52%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="89" fill="#111" clip-path="none">net.(*…</text></g>
+<g><title>internal/poll.(*FD).Read
+217 samples (4.1%)</title><rect x="1099.2" y="94" width="48.2" height="17" fill="hsl(44,86%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="107" fill="#111" clip-path="none">poll.(…</text></g>
+<g><title>internal/poll.(*FD).execIO
+210 samples (3.9%)</title><rect x="1099.2" y="112" width="46.6" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="125" fill="#111" clip-path="none">poll.(…</text></g>
+<g><title>internal/poll.(*FD).cancelIO
+79 samples (1.5%)</title><rect x="1099.2" y="130" width="17.2" height="17" fill="hsl(51,75%,53%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="143" fill="#111" clip-path="none">p…</text></g>
+<g><title>syscall.CancelIoEx
+77 samples (1.4%)</title><rect x="1099.2" y="148" width="16.8" height="17" fill="hsl(27,80%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="161" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.SyscallN
+75 samples (1.4%)</title><rect x="1099.2" y="166" width="16.3" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="179" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.syscalln
+75 samples (1.4%)</title><rect x="1099.2" y="184" width="16.3" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="197" fill="#111" clip-path="none">s…</text></g>
+<g><title>runtime.cgocall
+75 samples (1.4%)</title><rect x="1099.2" y="202" width="16.3" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1101.2" y="215" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.entersyscall
+4 samples (0.1%)</title><rect x="1099.2" y="220" width="0.5" height="17" fill="hsl(31,76%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).Read.func2
+60 samples (1.1%)</title><rect x="1116.9" y="130" width="13.0" height="17" fill="hsl(58,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1118.9" y="143" fill="#111" clip-path="none">p…</text></g>
+<g><title>syscall.WSARecv
+59 samples (1.1%)</title><rect x="1116.9" y="148" width="12.7" height="17" fill="hsl(29,84%,45%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1118.9" y="161" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.SyscallN
+58 samples (1.1%)</title><rect x="1116.9" y="166" width="12.5" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1118.9" y="179" fill="#111" clip-path="none">s…</text></g>
+<g><title>syscall.syscalln
+58 samples (1.1%)</title><rect x="1116.9" y="184" width="12.5" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1118.9" y="197" fill="#111" clip-path="none">s…</text></g>
+<g><title>runtime.cgocall
+58 samples (1.1%)</title><rect x="1116.9" y="202" width="12.5" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1118.9" y="215" fill="#111" clip-path="none">r…</text></g>
+<g><title>runtime.(*Pinner).Unpin
+19 samples (0.4%)</title><rect x="1130.4" y="130" width="3.8" height="17" fill="hsl(40,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*pinner).unpin
+18 samples (0.3%)</title><rect x="1130.4" y="148" width="3.5" height="17" fill="hsl(17,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+7 samples (0.1%)</title><rect x="1130.4" y="166" width="1.1" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+7 samples (0.1%)</title><rect x="1130.4" y="184" width="1.1" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+6 samples (0.1%)</title><rect x="1130.4" y="202" width="0.8" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.setPinned
+4 samples (0.1%)</title><rect x="1132.0" y="166" width="0.5" height="17" fill="hsl(45,86%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*mspan).divideByElemSize
+4 samples (0.1%)</title><rect x="1132.9" y="166" width="0.5" height="17" fill="hsl(39,75%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/syscall/windows.WSAGetOverlappedResult
+13 samples (0.2%)</title><rect x="1134.7" y="130" width="2.4" height="17" fill="hsl(22,94%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.SyscallN
+12 samples (0.2%)</title><rect x="1134.7" y="148" width="2.2" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+12 samples (0.2%)</title><rect x="1134.7" y="166" width="2.2" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+12 samples (0.2%)</title><rect x="1134.7" y="184" width="2.2" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.entersyscall
+3 samples (0.1%)</title><rect x="1134.7" y="202" width="0.5" height="17" fill="hsl(31,76%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+11 samples (0.2%)</title><rect x="1137.6" y="130" width="2.0" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+11 samples (0.2%)</title><rect x="1137.6" y="148" width="2.0" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+10 samples (0.2%)</title><rect x="1137.6" y="166" width="1.7" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+10 samples (0.2%)</title><rect x="1137.6" y="184" width="1.7" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+9 samples (0.2%)</title><rect x="1137.6" y="202" width="1.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).waitIO
+8 samples (0.1%)</title><rect x="1140.1" y="130" width="1.3" height="17" fill="hsl(31,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*pollDesc).wait
+5 samples (0.1%)</title><rect x="1140.1" y="148" width="0.6" height="17" fill="hsl(59,80%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollWait
+3 samples (0.1%)</title><rect x="1140.1" y="166" width="0.5" height="17" fill="hsl(28,77%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/syscall/windows.errnoErr
+6 samples (0.1%)</title><rect x="1141.9" y="130" width="0.8" height="17" fill="hsl(15,81%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.convT64
+6 samples (0.1%)</title><rect x="1141.9" y="148" width="0.8" height="17" fill="hsl(13,81%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+5 samples (0.1%)</title><rect x="1141.9" y="166" width="0.6" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.deductAssistCredit
+3 samples (0.1%)</title><rect x="1141.9" y="184" width="0.5" height="17" fill="hsl(17,79%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcAssistAlloc
+3 samples (0.1%)</title><rect x="1141.9" y="202" width="0.5" height="17" fill="hsl(30,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Get
+4 samples (0.1%)</title><rect x="1143.2" y="130" width="0.5" height="17" fill="hsl(50,78%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).getSlow
+3 samples (0.1%)</title><rect x="1143.2" y="148" width="0.5" height="17" fill="hsl(57,84%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*pollDesc).waitCanceled
+4 samples (0.1%)</title><rect x="1144.1" y="130" width="0.5" height="17" fill="hsl(34,78%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.runtime_pollWaitCanceled
+3 samples (0.1%)</title><rect x="1144.1" y="148" width="0.5" height="17" fill="hsl(24,83%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Pool).Put
+3 samples (0.1%)</title><rect x="1145.0" y="130" width="0.5" height="17" fill="hsl(10,83%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).pin
+6 samples (0.1%)</title><rect x="1146.4" y="112" width="0.8" height="17" fill="hsl(19,79%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*Pinner).Pin
+6 samples (0.1%)</title><rect x="1146.4" y="130" width="0.8" height="17" fill="hsl(13,80%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newobject
+3 samples (0.1%)</title><rect x="1148.4" y="76" width="0.5" height="17" fill="hsl(47,91%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.mallocgc
+3 samples (0.1%)</title><rect x="1148.4" y="94" width="0.5" height="17" fill="hsl(53,91%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.(*Cond).Broadcast
+6 samples (0.1%)</title><rect x="1150.2" y="58" width="0.8" height="17" fill="hsl(44,80%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync.runtime_notifyListNotifyAll
+4 samples (0.1%)</title><rect x="1150.2" y="76" width="0.5" height="17" fill="hsl(58,82%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcBgMarkWorker
+104 samples (1.9%)</title><rect x="1152.2" y="40" width="22.8" height="17" fill="hsl(14,89%,49%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1154.2" y="53" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.systemstack
+96 samples (1.8%)</title><rect x="1152.2" y="58" width="21.0" height="17" fill="hsl(55,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1154.2" y="71" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.gcDrainMarkWorkerDedicated
+88 samples (1.6%)</title><rect x="1152.2" y="76" width="19.3" height="17" fill="hsl(40,92%,51%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1154.2" y="89" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.gcDrain
+88 samples (1.6%)</title><rect x="1152.2" y="94" width="19.3" height="17" fill="hsl(24,84%,54%)" stroke="#1e1e1e" stroke-width="0.5"/><text x="1154.2" y="107" fill="#111" clip-path="none">ru…</text></g>
+<g><title>runtime.scanSpan
+41 samples (0.8%)</title><rect x="1152.2" y="112" width="8.7" height="17" fill="hsl(30,81%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.scanObjectsSmall
+22 samples (0.4%)</title><rect x="1152.2" y="130" width="4.4" height="17" fill="hsl(31,89%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.tryDeferToSpanScan
+4 samples (0.1%)</title><rect x="1152.2" y="148" width="0.5" height="17" fill="hsl(57,89%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.tryDeferToSpanScan
+6 samples (0.1%)</title><rect x="1157.1" y="130" width="0.8" height="17" fill="hsl(57,89%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.scanObjectSmall
+4 samples (0.1%)</title><rect x="1158.5" y="130" width="0.5" height="17" fill="hsl(30,89%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.markroot
+17 samples (0.3%)</title><rect x="1161.4" y="112" width="3.3" height="17" fill="hsl(19,77%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.markroot.func1
+10 samples (0.2%)</title><rect x="1161.4" y="130" width="1.7" height="17" fill="hsl(10,89%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.scanstack
+7 samples (0.1%)</title><rect x="1161.4" y="148" width="1.1" height="17" fill="hsl(12,78%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.scanframeworker
+4 samples (0.1%)</title><rect x="1161.4" y="166" width="0.5" height="17" fill="hsl(29,79%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*stkframe).getStackMap
+3 samples (0.1%)</title><rect x="1161.4" y="184" width="0.5" height="17" fill="hsl(39,84%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.markrootBlock
+5 samples (0.1%)</title><rect x="1163.6" y="130" width="0.6" height="17" fill="hsl(32,80%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.scanblock
+5 samples (0.1%)</title><rect x="1163.6" y="148" width="0.6" height="17" fill="hsl(55,75%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.scanObject
+14 samples (0.3%)</title><rect x="1165.2" y="112" width="2.6" height="17" fill="hsl(52,81%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.tryDeferToSpanScan
+4 samples (0.1%)</title><rect x="1165.2" y="130" width="0.5" height="17" fill="hsl(57,89%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/gc/scan.ScanSpanPacked
+8 samples (0.1%)</title><rect x="1168.4" y="112" width="1.3" height="17" fill="hsl(59,87%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/gc/scan.ScanSpanPackedAVX512
+8 samples (0.1%)</title><rect x="1168.4" y="130" width="1.3" height="17" fill="hsl(38,89%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/runtime/gc/scan.scanSpanPackedAVX512
+8 samples (0.1%)</title><rect x="1168.4" y="148" width="1.3" height="17" fill="hsl(44,81%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.wbBufFlush
+3 samples (0.1%)</title><rect x="1170.1" y="112" width="0.5" height="17" fill="hsl(47,94%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.wbBufFlush.func1
+3 samples (0.1%)</title><rect x="1170.1" y="130" width="0.5" height="17" fill="hsl(33,80%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.wbBufFlush1
+3 samples (0.1%)</title><rect x="1170.1" y="148" width="0.5" height="17" fill="hsl(10,83%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcDrainMarkWorkerIdle
+7 samples (0.1%)</title><rect x="1171.9" y="76" width="1.1" height="17" fill="hsl(16,85%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcDrain
+7 samples (0.1%)</title><rect x="1171.9" y="94" width="1.1" height="17" fill="hsl(24,84%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.scanSpan
+3 samples (0.1%)</title><rect x="1171.9" y="112" width="0.5" height="17" fill="hsl(30,81%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcMarkDone
+6 samples (0.1%)</title><rect x="1173.7" y="58" width="0.8" height="17" fill="hsl(57,85%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcMarkTermination
+3 samples (0.1%)</title><rect x="1173.7" y="76" width="0.5" height="17" fill="hsl(30,87%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.forEachP
+3 samples (0.1%)</title><rect x="1174.4" y="76" width="0.5" height="17" fill="hsl(24,79%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.systemstack
+3 samples (0.1%)</title><rect x="1174.4" y="94" width="0.5" height="17" fill="hsl(55,76%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcMarkTermination.forEachP.func7
+3 samples (0.1%)</title><rect x="1174.4" y="112" width="0.5" height="17" fill="hsl(33,75%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.forEachPInternal
+3 samples (0.1%)</title><rect x="1174.4" y="130" width="0.5" height="17" fill="hsl(55,83%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gcMarkTermination.func4
+3 samples (0.1%)</title><rect x="1174.4" y="148" width="0.5" height="17" fill="hsl(18,94%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*conn).run
+29 samples (0.5%)</title><rect x="1175.5" y="40" width="6.0" height="17" fill="hsl(27,76%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*conn).roundTrip
+28 samples (0.5%)</title><rect x="1175.5" y="58" width="5.8" height="17" fill="hsl(56,83%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*Conn).RoundTrip
+28 samples (0.5%)</title><rect x="1175.5" y="76" width="5.8" height="17" fill="hsl(45,80%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.RoundTrip
+28 samples (0.5%)</title><rect x="1175.5" y="94" width="5.8" height="17" fill="hsl(49,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.WriteRequest
+26 samples (0.5%)</title><rect x="1175.5" y="112" width="5.3" height="17" fill="hsl(56,92%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.structEncodeFuncOf.func2
+13 samples (0.2%)</title><rect x="1175.5" y="130" width="2.4" height="17" fill="hsl(21,88%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.arrayEncodeFuncOf.func4
+13 samples (0.2%)</title><rect x="1175.5" y="148" width="2.4" height="17" fill="hsl(59,91%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*encoder).encodeArray
+13 samples (0.2%)</title><rect x="1175.5" y="166" width="2.4" height="17" fill="hsl(39,81%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.structEncodeFuncOf.func2
+13 samples (0.2%)</title><rect x="1175.5" y="184" width="2.4" height="17" fill="hsl(21,88%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.arrayEncodeFuncOf.func4
+13 samples (0.2%)</title><rect x="1175.5" y="202" width="2.4" height="17" fill="hsl(59,91%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*encoder).encodeArray
+13 samples (0.2%)</title><rect x="1175.5" y="220" width="2.4" height="17" fill="hsl(39,81%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.structEncodeFuncOf.func2
+13 samples (0.2%)</title><rect x="1175.5" y="238" width="2.4" height="17" fill="hsl(21,88%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.writerEncodeFuncOf.func1
+13 samples (0.2%)</title><rect x="1175.5" y="256" width="2.4" height="17" fill="hsl(18,94%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*RecordSet).WriteTo
+13 samples (0.2%)</title><rect x="1175.5" y="274" width="2.4" height="17" fill="hsl(24,78%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*RecordSet).writeToVersion2
+13 samples (0.2%)</title><rect x="1175.5" y="292" width="2.4" height="17" fill="hsl(12,91%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.forEachRecord
+12 samples (0.2%)</title><rect x="1175.5" y="310" width="2.2" height="17" fill="hsl(19,92%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.handleRecord
+11 samples (0.2%)</title><rect x="1175.5" y="328" width="2.0" height="17" fill="hsl(53,81%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*RecordSet).writeToVersion2.func1
+10 samples (0.2%)</title><rect x="1175.5" y="346" width="1.7" height="17" fill="hsl(38,84%,46%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.Copy
+9 samples (0.2%)</title><rect x="1175.5" y="364" width="1.5" height="17" fill="hsl(48,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>io.copyBuffer
+9 samples (0.2%)</title><rect x="1175.5" y="382" width="1.5" height="17" fill="hsl(48,93%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>bytes.(*Reader).WriteTo
+9 samples (0.2%)</title><rect x="1175.5" y="400" width="1.5" height="17" fill="hsl(57,75%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*encoder).Write
+8 samples (0.1%)</title><rect x="1175.5" y="418" width="1.3" height="17" fill="hsl(33,84%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*page).WriteAt
+5 samples (0.1%)</title><rect x="1175.5" y="436" width="0.6" height="17" fill="hsl(45,83%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.memmove
+5 samples (0.1%)</title><rect x="1175.5" y="454" width="0.6" height="17" fill="hsl(28,80%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*pageBuffer).Write
+3 samples (0.1%)</title><rect x="1176.7" y="436" width="0.5" height="17" fill="hsl(20,76%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.newstack
+3 samples (0.1%)</title><rect x="1176.7" y="454" width="0.5" height="17" fill="hsl(23,78%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*pageBuffer).WriteTo
+12 samples (0.2%)</title><rect x="1178.5" y="130" width="2.2" height="17" fill="hsl(28,75%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.contiguousPages.scan
+12 samples (0.2%)</title><rect x="1178.5" y="148" width="2.2" height="17" fill="hsl(15,88%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*pageBuffer).WriteTo.func1
+12 samples (0.2%)</title><rect x="1178.5" y="166" width="2.2" height="17" fill="hsl(27,78%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go/protocol.(*Conn).Write
+12 samples (0.2%)</title><rect x="1178.5" y="184" width="2.2" height="17" fill="hsl(55,86%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*conn).Write
+12 samples (0.2%)</title><rect x="1178.5" y="202" width="2.2" height="17" fill="hsl(57,93%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*netFD).Write
+12 samples (0.2%)</title><rect x="1178.5" y="220" width="2.2" height="17" fill="hsl(13,83%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).Write
+12 samples (0.2%)</title><rect x="1178.5" y="238" width="2.2" height="17" fill="hsl(41,81%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).execIO
+12 samples (0.2%)</title><rect x="1178.5" y="256" width="2.2" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).Write.func2
+12 samples (0.2%)</title><rect x="1178.5" y="274" width="2.2" height="17" fill="hsl(19,84%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.WSASend
+12 samples (0.2%)</title><rect x="1178.5" y="292" width="2.2" height="17" fill="hsl(51,78%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.SyscallN
+12 samples (0.2%)</title><rect x="1178.5" y="310" width="2.2" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+12 samples (0.2%)</title><rect x="1178.5" y="328" width="2.2" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+12 samples (0.2%)</title><rect x="1178.5" y="346" width="2.2" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.morestack
+21 samples (0.4%)</title><rect x="1182.0" y="40" width="4.2" height="17" fill="hsl(21,81%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.gopreempt_m
+21 samples (0.4%)</title><rect x="1182.0" y="58" width="4.2" height="17" fill="hsl(44,82%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.goschedImpl
+16 samples (0.3%)</title><rect x="1182.0" y="76" width="3.1" height="17" fill="hsl(58,77%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.schedule
+14 samples (0.3%)</title><rect x="1182.0" y="94" width="2.6" height="17" fill="hsl(15,87%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.findRunnable
+12 samples (0.2%)</title><rect x="1182.0" y="112" width="2.2" height="17" fill="hsl(53,87%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+11 samples (0.2%)</title><rect x="1182.0" y="130" width="2.0" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+8 samples (0.1%)</title><rect x="1182.0" y="148" width="1.3" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+8 samples (0.1%)</title><rect x="1182.0" y="166" width="1.3" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lockWithRank
+4 samples (0.1%)</title><rect x="1185.6" y="76" width="0.5" height="17" fill="hsl(30,89%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.lock2
+3 samples (0.1%)</title><rect x="1185.6" y="94" width="0.5" height="17" fill="hsl(21,93%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.semasleep
+3 samples (0.1%)</title><rect x="1185.6" y="112" width="0.5" height="17" fill="hsl(55,86%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*Resolver).lookupIP.func2
+20 samples (0.4%)</title><rect x="1186.8" y="40" width="4.0" height="17" fill="hsl(39,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.getSystemDNSConfig
+14 samples (0.3%)</title><rect x="1186.8" y="58" width="2.6" height="17" fill="hsl(19,78%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*resolverConfig).tryUpdate
+14 samples (0.3%)</title><rect x="1186.8" y="76" width="2.6" height="17" fill="hsl(30,86%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.dnsReadConfig
+14 samples (0.3%)</title><rect x="1186.8" y="94" width="2.6" height="17" fill="hsl(32,80%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.adapterAddresses
+14 samples (0.3%)</title><rect x="1186.8" y="112" width="2.6" height="17" fill="hsl(37,90%,50%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/syscall/windows.GetAdaptersAddresses
+14 samples (0.3%)</title><rect x="1186.8" y="130" width="2.6" height="17" fill="hsl(21,79%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.SyscallN
+13 samples (0.2%)</title><rect x="1186.8" y="148" width="2.4" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+13 samples (0.2%)</title><rect x="1186.8" y="166" width="2.4" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+13 samples (0.2%)</title><rect x="1186.8" y="184" width="2.4" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*Resolver).lookupIP.func1
+6 samples (0.1%)</title><rect x="1189.9" y="58" width="0.8" height="17" fill="hsl(47,81%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.GetAddrInfoW
+6 samples (0.1%)</title><rect x="1189.9" y="76" width="0.8" height="17" fill="hsl(56,90%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.SyscallN
+6 samples (0.1%)</title><rect x="1189.9" y="94" width="0.8" height="17" fill="hsl(49,89%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+6 samples (0.1%)</title><rect x="1189.9" y="112" width="0.8" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+6 samples (0.1%)</title><rect x="1189.9" y="130" width="0.8" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.bgsweep
+11 samples (0.2%)</title><rect x="1191.2" y="40" width="2.0" height="17" fill="hsl(19,89%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.sweepone
+10 samples (0.2%)</title><rect x="1191.2" y="58" width="1.7" height="17" fill="hsl(18,79%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.(*sweepLocked).sweep
+3 samples (0.1%)</title><rect x="1191.2" y="76" width="0.5" height="17" fill="hsl(20,86%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*sysDialer).dialParallel.func1
+10 samples (0.2%)</title><rect x="1193.7" y="40" width="1.7" height="17" fill="hsl(19,92%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*sysDialer).dialSerial
+10 samples (0.2%)</title><rect x="1193.7" y="58" width="1.7" height="17" fill="hsl(21,85%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*sysDialer).dialSingle
+10 samples (0.2%)</title><rect x="1193.7" y="76" width="1.7" height="17" fill="hsl(17,82%,55%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*sysDialer).doDialTCP
+10 samples (0.2%)</title><rect x="1193.7" y="94" width="1.7" height="17" fill="hsl(27,92%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*sysDialer).doDialTCPProto
+10 samples (0.2%)</title><rect x="1193.7" y="112" width="1.7" height="17" fill="hsl(21,87%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.internetSocket
+10 samples (0.2%)</title><rect x="1193.7" y="130" width="1.7" height="17" fill="hsl(54,84%,56%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.socket
+10 samples (0.2%)</title><rect x="1193.7" y="148" width="1.7" height="17" fill="hsl(33,83%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*netFD).dial
+9 samples (0.2%)</title><rect x="1193.7" y="166" width="1.5" height="17" fill="hsl(42,92%,52%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>net.(*netFD).connect
+9 samples (0.2%)</title><rect x="1193.7" y="184" width="1.5" height="17" fill="hsl(17,76%,45%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).ConnectEx
+8 samples (0.1%)</title><rect x="1193.7" y="202" width="1.3" height="17" fill="hsl(52,89%,48%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).execIO
+8 samples (0.1%)</title><rect x="1193.7" y="220" width="1.3" height="17" fill="hsl(55,84%,59%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>internal/poll.(*FD).ConnectEx.func1
+8 samples (0.1%)</title><rect x="1193.7" y="238" width="1.3" height="17" fill="hsl(13,78%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.ConnectEx
+8 samples (0.1%)</title><rect x="1193.7" y="256" width="1.3" height="17" fill="hsl(19,80%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.connectEx
+8 samples (0.1%)</title><rect x="1193.7" y="274" width="1.3" height="17" fill="hsl(36,79%,57%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.Syscall9
+8 samples (0.1%)</title><rect x="1193.7" y="292" width="1.3" height="17" fill="hsl(39,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>syscall.syscalln
+8 samples (0.1%)</title><rect x="1193.7" y="310" width="1.3" height="17" fill="hsl(31,89%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>runtime.cgocall
+8 samples (0.1%)</title><rect x="1193.7" y="328" width="1.3" height="17" fill="hsl(55,75%,58%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Writer).spawn.func1
+6 samples (0.1%)</title><rect x="1196.0" y="40" width="0.8" height="17" fill="hsl(50,77%,53%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*partitionWriter).writeBatches
+5 samples (0.1%)</title><rect x="1196.0" y="58" width="0.6" height="17" fill="hsl(23,91%,54%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*partitionWriter).writeBatch
+5 samples (0.1%)</title><rect x="1196.0" y="76" width="0.6" height="17" fill="hsl(36,81%,51%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>github.com/segmentio/kafka-go.(*Writer).produce
+3 samples (0.1%)</title><rect x="1196.0" y="94" width="0.5" height="17" fill="hsl(15,90%,49%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+<g><title>sync/atomic.(*Pointer[go.shape.c29c394a48c0e148dc5f2b44dafd2f469075c4ce204db5ab2e807f80a75aec77]).Store
+4 samples (0.1%)</title><rect x="1197.3" y="40" width="0.5" height="17" fill="hsl(38,79%,47%)" stroke="#1e1e1e" stroke-width="0.5"/></g>
+</svg>

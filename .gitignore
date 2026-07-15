@@ -1,7 +1,5 @@
-GUIDE.md
-PLAN.md
-
-# Local secrets / environment — never commit real values
 .env
 *.env
 !*.env.example
+scripts
+.vscode
